@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -42,6 +43,10 @@ public class MockPortletConfig implements PortletConfig {
 		this.portletContext = portletContext;
 		this.containerRuntimeOptions = new HashMap<String, String[]>();
 		this.initParameters = new HashMap<String,String>();
+		this.publicRenderParameters = new HashMap<String, String>();
+		this.publishingEvents = new LinkedList<QName>();
+		this.processingEvents = new LinkedList<QName>();
+		this.supportedLocales = new LinkedList<Locale>();
 	}
 
 	/* (non-Javadoc)
@@ -69,6 +74,7 @@ public class MockPortletConfig implements PortletConfig {
 	 */
 	
 	public ResourceBundle getResourceBundle(Locale locale) {
+		//TODO : implement better handling
 		if( bundleBaseName == null || bundleBaseName.equals("") ) {
 			return new ResourceBundle(){
 				public Enumeration<String> getKeys() { return Collections.enumeration(new ArrayList<String>()); }
