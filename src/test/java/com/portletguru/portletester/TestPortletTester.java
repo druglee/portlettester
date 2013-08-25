@@ -5,7 +5,12 @@ import org.junit.BeforeClass;
 
 import com.portletguru.portlettester.PortletTester;
 
-
+/**
+ * Testing different scenarios to use PortletTester
+ * 
+ * @author Derek Linde Li
+ *
+ */
 public class TestPortletTester {
 	
 	private static PortletTester tester;
@@ -14,7 +19,7 @@ public class TestPortletTester {
 	@BeforeClass
 	public static void setupClass() {
 		portlet = new MockPortlet();
-		tester = new PortletTester(portlet);
+		tester = new PortletTester();
 	}
 	
 	@After

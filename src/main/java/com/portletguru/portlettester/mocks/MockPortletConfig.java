@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
@@ -23,7 +24,7 @@ import javax.xml.namespace.QName;
  */
 public class MockPortletConfig implements PortletConfig {
 	
-	private static String DEFAULT_BUNDLE_BASE_NAME = "com.portletmanic.portlettester.resource";
+	private static String DEFAULT_BUNDLE_BASE_NAME = "com.portletguru.portlettester.resource";
 	
 	private PortletContext portletContext;
 	private String portletName;
@@ -31,6 +32,11 @@ public class MockPortletConfig implements PortletConfig {
 	private String defaultNamespace;
 	private Map<String,String[]> containerRuntimeOptions;
 	private Map<String,String> initParameters;
+	private Map<String,String> publicRenderParameters;
+	private List<QName> publishingEvents;
+	private List<QName> processingEvents;
+	private List<Locale> supportedLocales;
+	
 	
 	public MockPortletConfig(PortletContext portletContext){
 		this.portletContext = portletContext;
@@ -113,7 +119,7 @@ public class MockPortletConfig implements PortletConfig {
 		 * enumeration if no public render parameters are defined for the current portlet definition.
 		 * */
 		//TODO - read from the portlet.xml
-		return Collections.enumeration(new ArrayList<String>());
+		return Collections.enumeration(publicRenderParameters.keySet());
 	}
 
 	/* (non-Javadoc)
@@ -140,7 +146,7 @@ public class MockPortletConfig implements PortletConfig {
 		 * If the event was defined using the name element instead of the qname element the defined
 		 * default namespace must be added as namespace for the returned QName.*/
 		//TODO - read from the portlet.xml
-		return Collections.enumeration(new ArrayList<QName>());
+		return Collections.enumeration(publishingEvents);
 	}
 
 	/* (non-Javadoc)
@@ -150,7 +156,7 @@ public class MockPortletConfig implements PortletConfig {
 	public Enumeration<QName> getProcessingEventQNames() {
 		//Similar to above
 		//TODO - read from the portlet.xml
-		return Collections.enumeration(new ArrayList<QName>());
+		return Collections.enumeration(processingEvents);
 	}
 
 	/* (non-Javadoc)
@@ -159,7 +165,7 @@ public class MockPortletConfig implements PortletConfig {
 	
 	public Enumeration<Locale> getSupportedLocales() {
 		//TODO - read from the portlet.xml
-		return Collections.enumeration(new ArrayList<Locale>());
+		return Collections.enumeration(supportedLocales);
 	}
 
 	/* (non-Javadoc)
@@ -183,8 +189,38 @@ public class MockPortletConfig implements PortletConfig {
 		return containerRuntimeOptions;
 	}
 	
+	/* =============  Setters =============== */
+	
 	public void setBundleBaseName(String baseName){
 		this.bundleBaseName = baseName;
 	}
 
+	public void setPortletName(String portletName) {
+		this.portletName = portletName;
+	}
+
+	public void setDefaultNamespace(String defaultNamespace) {
+		this.defaultNamespace = defaultNamespace;
+	}
+
+	public void setContainerRuntimeOptions(
+			Map<String, String[]> containerRuntimeOptions) {
+		this.containerRuntimeOptions = containerRuntimeOptions;
+	}
+
+	public void setPublicRenderParameters(Map<String, String> publicRenderParameters) {
+		this.publicRenderParameters = publicRenderParameters;
+	}
+
+	public void setPublishingEvents(List<QName> publishingEvents) {
+		this.publishingEvents = publishingEvents;
+	}
+
+	public void setProcessingEvents(List<QName> processingEvents) {
+		this.processingEvents = processingEvents;
+	}
+
+	public void setSupportedLocales(List<Locale> supportedLocales) {
+		this.supportedLocales = supportedLocales;
+	}
 }

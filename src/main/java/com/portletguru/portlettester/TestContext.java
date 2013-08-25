@@ -3,8 +3,6 @@
  */
 package com.portletguru.portlettester;
 
-import java.util.Map;
-
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.EventRequest;
@@ -32,9 +30,10 @@ public interface TestContext {
 	public ActionRequest getActionRequest();
 	public ActionResponse getActionResponse();
 	public void reset();
-	public PortletConfig getPortletConfig();
+	public PortletConfigGenerator getPortletConfigGenerator();
 	
-	public void initPortlet( Portlet portlet, Map<String,String> initParameters) throws PortletException;
+	public void initPortlet( Portlet portlet, PortletConfig portletConfig) throws PortletException;
+	public void initPortlet( Portlet portlet ) throws PortletException;
 	
 	public TestResultHolder getTestResult();
 }

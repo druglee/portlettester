@@ -44,13 +44,13 @@ public abstract class MockMimeResponse extends MockPortletResponse implements
  		}
  		this.request = request;
  		this.response = new MockHttpServletResponse(resultHolder);
-	} 	
+	}
 
 	/* (non-Javadoc)
 	 * @see javax.portlet.MimeResponse#getContentType()
 	 */
 	
-	public String getContentType() {		
+	public String getContentType() {
 		return contentType;
 	}
 

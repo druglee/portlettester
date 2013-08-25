@@ -21,7 +21,7 @@ public class MockEvent implements Event {
 	public MockEvent(String name,Serializable value) {
 		this.name = name;
 		this.value = value;
-		this.qName = new QName("{http://com.portletmaniac.portlettester}", name);
+		this.qName = new QName("{http://com.portletguru.portlettester}", name);
 	}
 	
 	public MockEvent(QName qname,Serializable value){

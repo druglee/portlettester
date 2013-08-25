@@ -20,6 +20,7 @@ import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
+import com.portletguru.portlettester.PortletConfigGenerator;
 import com.portletguru.portlettester.PortletStatus;
 import com.portletguru.portlettester.TestContext;
 import com.portletguru.portlettester.TestResultHolder;
@@ -49,11 +50,11 @@ public class DefaultTestContext implements TestContext {
 	private EventResponse eventResponse;
 	private ResourceRequest resourceRequest;
 	private ResourceResponse resourceResponse;
+	private PortletConfigGenerator portletConfigGenerator;
 	
 	private PortalContext portalContext;
 	private PortletContext portletContext;
 	private PortletStatus portletStatus;
-	private PortletConfig portletConfig;
 	
 	private TestResultHolder testResult;
 	
@@ -67,9 +68,8 @@ public class DefaultTestContext implements TestContext {
 	public DefaultTestContext(Map<String,String> contextInitParameters){
 		testResult = new TestResultHolder();
 		portalContext = new MockPortalContext();
-		portletStatus = new PortletStatus();		
+		portletStatus = new PortletStatus();
 		portletContext = new MockPortletContext(contextInitParameters, testResult);
-		portletConfig = new MockPortletConfig(portletContext);		
 	}
 	
 	/* (non-Javadoc)
@@ -160,8 +160,15 @@ public class DefaultTestContext implements TestContext {
 		return resourceResponse;
 	}
 	
-	public PortletConfig getPortletConfig(){
-		return portletConfig;
+	/* (non-Javadoc)
+	 * @see com.portletmanic.portlettester.TestContext#getPortletConfigGenerator()
+	 */
+	
+	public PortletConfigGenerator getPortletConfigGenerator() {
+		if(portletConfigGenerator == null) {
+			portletConfigGenerator = new PortletConfigGenerator(portletContext);
+		}
+		return portletConfigGenerator;
 	}
 	
 	/* (non-Javadoc)
@@ -174,9 +181,16 @@ public class DefaultTestContext implements TestContext {
 	/* (non-Javadoc)
 	 * @see com.portletmaniac.portlettester.TestContext#initPortlet(javax.portlet.Portlet)
 	 */
-	public void initPortlet(Portlet portlet, Map<String,String> portletInitParameters ) throws PortletException {
-			((MockPortletConfig)portletConfig).setInitParameters(portletInitParameters);
-			portlet.init(portletConfig);
+	public void initPortlet(Portlet portlet ) throws PortletException {
+		portlet.init(new MockPortletConfig(portletContext));
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.portletmaniac.portlettester.TestContext#initPortlet(javax.portlet.Portlet, javax.portlet.PortletConfig)
+	 */
+	public void initPortlet(Portlet portlet, PortletConfig portletConfig)
+			throws PortletException {
+		portlet.init(portletConfig);		
 	}
 
 	/* (non-Javadoc)
@@ -193,6 +207,6 @@ public class DefaultTestContext implements TestContext {
 		this.actionRequest = null;
 		this.actionResponse = null;
 		this.testResult.reset();
-	}	
+	}
 	
 }
