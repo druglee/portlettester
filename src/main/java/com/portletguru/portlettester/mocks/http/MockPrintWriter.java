@@ -16,8 +16,8 @@ public class MockPrintWriter extends Writer {
 	
 	private TestResultHolder resultHolder;
 	
-	public MockPrintWriter() {
-		resultHolder = TestResultHolder.getInstance();
+	public MockPrintWriter(TestResultHolder resultHolder) {
+		resultHolder = resultHolder;
 	}
 	
 	@Override

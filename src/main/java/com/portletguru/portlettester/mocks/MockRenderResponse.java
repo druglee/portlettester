@@ -8,6 +8,8 @@ import javax.portlet.PortletMode;
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderResponse;
 
+import com.portletguru.portlettester.TestResultHolder;
+
 /**
  * @author Derek Linde Li
  *
@@ -15,8 +17,8 @@ import javax.portlet.RenderResponse;
 public class MockRenderResponse extends MockMimeResponse implements
 		RenderResponse {
 	
-	public MockRenderResponse(PortletRequest request) {
-		super(request);
+	public MockRenderResponse(PortletRequest request, TestResultHolder resultHolder) {
+		super(request, resultHolder);
 	}
 
 	private String title;

@@ -8,6 +8,8 @@ import java.util.Locale;
 import javax.portlet.PortletRequest;
 import javax.portlet.ResourceResponse;
 
+import com.portletguru.portlettester.TestResultHolder;
+
 /**
  * @author Derek Linde Li
  *
@@ -15,8 +17,8 @@ import javax.portlet.ResourceResponse;
 public class MockResourceResponse extends MockMimeResponse implements
 		ResourceResponse {
 
-	public MockResourceResponse(PortletRequest request) {
-		super(request);
+	public MockResourceResponse(PortletRequest request, TestResultHolder resultHolder) {
+		super(request, resultHolder);
 	}
 
 	/* (non-Javadoc)

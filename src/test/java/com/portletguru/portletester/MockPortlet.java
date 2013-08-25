@@ -1,4 +1,4 @@
-package com.portletguru.portlettester.mocks;
+package com.portletguru.portletester;
 
 import javax.portlet.GenericPortlet;
 

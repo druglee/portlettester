@@ -11,6 +11,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import com.portletguru.portlettester.TestResultHolder;
 import com.portletguru.portlettester.utils.Constants;
 
 /**
@@ -26,12 +27,12 @@ public class MockHttpServletResponse implements HttpServletResponse {
 	private int bufferSize;
 	private boolean committed;
 	
-	public MockHttpServletResponse() {
+	public MockHttpServletResponse(TestResultHolder resultHolder) {
 		contentType = Constants.TEXT_HTML;
 		charactersEncoding = "UTF-8";
-		writer = new PrintWriter(new MockPrintWriter());
+		writer = new PrintWriter(new MockPrintWriter(resultHolder));
 		bufferSize = 256;
-		outputStream = new MockServletOutputStream();
+		outputStream = new MockServletOutputStream(resultHolder);
 	}
 
 	/* (non-Javadoc)

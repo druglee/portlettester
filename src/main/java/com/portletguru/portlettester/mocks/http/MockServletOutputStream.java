@@ -17,8 +17,8 @@ public class MockServletOutputStream extends ServletOutputStream {
 	
 	private TestResultHolder resultHolder;
 	
-	public MockServletOutputStream() {
-		resultHolder = TestResultHolder.getInstance();
+	public MockServletOutputStream(TestResultHolder resultHolder) {
+		this.resultHolder = resultHolder;
 	}
 
 	/* (non-Javadoc)

@@ -18,6 +18,7 @@ import javax.portlet.PortletURL;
 import javax.portlet.ResourceURL;
 import javax.servlet.http.HttpServletResponse;
 
+import com.portletguru.portlettester.TestResultHolder;
 import com.portletguru.portlettester.mocks.http.MockHttpServletResponse;
 
 /**
@@ -34,7 +35,7 @@ public abstract class MockMimeResponse extends MockPortletResponse implements
  	private PortletRequest request;
  	private Map<String, Object> existingHeaders;
  	
- 	public MockMimeResponse(PortletRequest request) {
+ 	public MockMimeResponse(PortletRequest request, TestResultHolder resultHolder) {
  		existingHeaders = new LinkedHashMap<String, Object>();
  		/* clone the existing properties for reseting */
  		// if reset is called later, just simply replace the _headers with this clone one
@@ -42,7 +43,7 @@ public abstract class MockMimeResponse extends MockPortletResponse implements
  			existingHeaders.put(entry.getKey(), entry.getValue());
  		}
  		this.request = request;
- 		this.response = new MockHttpServletResponse();
+ 		this.response = new MockHttpServletResponse(resultHolder);
 	} 	
 
 	/* (non-Javadoc)

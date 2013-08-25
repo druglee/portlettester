@@ -17,6 +17,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.portletguru.portlettester.PortletStatus;
+import com.portletguru.portlettester.TestResultHolder;
 
 /**
  * @author Derek Linde Li
@@ -28,7 +29,7 @@ public class TestMockPortletRequest {
 	
 	@Before
 	public void setup(){
-		request = new MockPortletRequest( new MockPortalContext(), new MockPortletContext(), new PortletStatus()) 
+		request = new MockPortletRequest( new MockPortalContext(), new MockPortletContext(new TestResultHolder()), new PortletStatus()) 
 					{			
 						@Override
 						public String getLifeCycle() {

@@ -65,12 +65,11 @@ public class DefaultTestContext implements TestContext {
 	}
 	
 	public DefaultTestContext(Map<String,String> contextInitParameters){
+		testResult = new TestResultHolder();
 		portalContext = new MockPortalContext();
 		portletStatus = new PortletStatus();		
-		portletContext = new MockPortletContext(contextInitParameters);
-		portletConfig = new MockPortletConfig(portletContext);
-		
-		testResult = TestResultHolder.getInstance();
+		portletContext = new MockPortletContext(contextInitParameters, testResult);
+		portletConfig = new MockPortletConfig(portletContext);		
 	}
 	
 	/* (non-Javadoc)
@@ -90,7 +89,7 @@ public class DefaultTestContext implements TestContext {
 	
 	public ActionResponse getActionResponse() {
 		if( actionResponse == null ) {
-			actionResponse = new MockActionResponse(portletStatus, getActionRequest());
+			actionResponse = new MockActionResponse(portletStatus, getActionRequest(), testResult);
 		}
 		return actionResponse;
 	}
@@ -112,7 +111,7 @@ public class DefaultTestContext implements TestContext {
 	
 	public RenderResponse getRenderResponse() {
 		if( renderResponse == null){
-			renderResponse = new MockRenderResponse(getRenderRequest());
+			renderResponse = new MockRenderResponse(getRenderRequest(), testResult);
 		}
 		return renderResponse;
 	}
@@ -156,7 +155,7 @@ public class DefaultTestContext implements TestContext {
 	
 	public ResourceResponse getResourceResponse() {
 		if( resourceResponse == null){
-			resourceResponse = new MockResourceResponse(getResourceRequest());
+			resourceResponse = new MockResourceResponse(getResourceRequest(), testResult);
 		}
 		return resourceResponse;
 	}

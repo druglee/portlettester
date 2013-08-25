@@ -21,11 +21,14 @@ import com.portletguru.portlettester.utils.Constants;
  */
 public class MockActionResponse extends MockStateAwareResponse implements
 		ActionResponse {
+	
+	private TestResultHolder resultHolder;
 
 
 	public MockActionResponse(PortletStatus portletStatus,
-			PortletRequest portletRequest) {
+			PortletRequest portletRequest, TestResultHolder resultHolder) {
 		super(portletStatus, portletRequest);
+		this.resultHolder = resultHolder;
 	}
 
 	/* (non-Javadoc)
@@ -49,7 +52,7 @@ public class MockActionResponse extends MockStateAwareResponse implements
 			throw new IllegalArgumentException("location:" + location + " is a relative path.");
 		}
 		setRedirectURL(location);
-		TestResultHolder.getInstance().setRedirectLocation(location);
+		resultHolder.setRedirectLocation(location);
 	}
 
 	/* (non-Javadoc)
@@ -73,7 +76,7 @@ public class MockActionResponse extends MockStateAwareResponse implements
 		String encodedLocation = generateURL(location, getWindowState(), getPortletMode(), getRenderParameterMap());
 		setRenderParameter(renderUrlParamName,encodedLocation);
 		setRedirectURL(encodedLocation);
-		TestResultHolder.getInstance().setRedirectLocation(location);
+		resultHolder.setRedirectLocation(location);
 	}
 	
 	/**

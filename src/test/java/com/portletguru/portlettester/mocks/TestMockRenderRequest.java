@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.portletguru.portlettester.PortletStatus;
+import com.portletguru.portlettester.TestResultHolder;
 
 /**
  * @author Derek Linde Li
@@ -21,7 +22,7 @@ public class TestMockRenderRequest {
 	
 	@Before
 	public void setup(){
-		request = new MockRenderRequest(new MockPortalContext(), new MockPortletContext(), new PortletStatus());
+		request = new MockRenderRequest(new MockPortalContext(), new MockPortletContext(new TestResultHolder()), new PortletStatus());
 	}
 	
 	@Test

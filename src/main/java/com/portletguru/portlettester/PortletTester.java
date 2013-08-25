@@ -21,7 +21,6 @@ import com.portletguru.portlettester.impl.DefaultTestContext;
 public class PortletTester {
 	
 	private TestContext testContext;
-	private TestResultHolder resultHolder;
 	
 	public PortletTester(Portlet portlet) {
 		testContext = new DefaultTestContext();
@@ -31,7 +30,6 @@ public class PortletTester {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		resultHolder = TestResultHolder.getInstance();
 	}
 	
 	/**
@@ -81,19 +79,18 @@ public class PortletTester {
 	 */
 	public void resetTestContext(){
 		this.testContext.reset();
-		this.resultHolder.reset();
 	}
 	
 	public String getRequestDispatcherName() {
-		return resultHolder.getRequestDispatcherName();
+		return testContext.getTestResult().getRequestDispatcherName();
 	}
 
 	public String getRequestDispatcherPath() {
-		return resultHolder.getRequestDispatcherPath();
+		return testContext.getTestResult().getRequestDispatcherPath();
 	}
 	
 	public String getRedirectLocation(){
-		return resultHolder.getRedirectLocation();
+		return testContext.getTestResult().getRedirectLocation();
 	}
 	
 	/**
@@ -101,7 +98,7 @@ public class PortletTester {
 	 * @return a String that contains the content the user has written
 	 */
 	public String getOutputContent(){
-		return resultHolder.getOutputContent();
+		return testContext.getTestResult().getOutputContent();
 	}
 	
 }

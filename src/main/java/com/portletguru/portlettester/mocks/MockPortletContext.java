@@ -53,14 +53,18 @@ public class MockPortletContext implements PortletContext {
 	
 	private PortletRequestDispatcher requestDispatcher;
 	
-	public MockPortletContext() {
-		this(new HashMap<String,String>());
+	private TestResultHolder resultHolder;
+	
+	public MockPortletContext(TestResultHolder resultHolder) {
+		this(new HashMap<String,String>(), resultHolder);
+		
 	}
 	
-	public MockPortletContext(Map<String,String> initParameters){
+	public MockPortletContext(Map<String,String> initParameters, TestResultHolder resultHolder){
 		attributes = new HashMap<String, Object>();
 		this.initParameters = initParameters;
 		requestDispatcher = new MockPortletRequestDispatcher();
+		this.resultHolder = resultHolder;
 	}
 
 	/* (non-Javadoc)
@@ -76,7 +80,7 @@ public class MockPortletContext implements PortletContext {
 	 */
 	
 	public PortletRequestDispatcher getRequestDispatcher(String path) {
-		TestResultHolder.getInstance().setRequestDispatcherPath(path);
+		resultHolder.setRequestDispatcherPath(path);
 		return requestDispatcher;
 	}
 
@@ -85,7 +89,7 @@ public class MockPortletContext implements PortletContext {
 	 */
 	
 	public PortletRequestDispatcher getNamedDispatcher(String name) {
-		TestResultHolder.getInstance().setRequestDispatcherName(name);
+		resultHolder.setRequestDispatcherName(name);
 		return requestDispatcher;
 	}
 

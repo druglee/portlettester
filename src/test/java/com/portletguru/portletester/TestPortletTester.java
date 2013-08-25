@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.BeforeClass;
 
 import com.portletguru.portlettester.PortletTester;
-import com.portletguru.portlettester.mocks.MockPortlet;
 
 
 public class TestPortletTester {

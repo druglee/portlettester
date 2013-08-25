@@ -16,7 +16,6 @@ import java.util.List;
  */
 public class TestResultHolder {
 
-	private static TestResultHolder instance;
 	private String requestDispatcherPath;
 	private String requestDispatcherName;
 	private String redirectLocation;
@@ -24,16 +23,9 @@ public class TestResultHolder {
 	private StringBuilder outputContent;
 	private List<Byte> outputBytes;
 	
-	private TestResultHolder() {
+	public TestResultHolder() {
 		outputContent = new StringBuilder();
 		outputBytes = getOutputBytesList();
-	}
-	
-	public synchronized static TestResultHolder getInstance(){
-		if(instance == null) {
-			instance = new TestResultHolder();
-		}
-		return instance;
 	}
 	
 	public String getRequestDispatcherPath(){
