@@ -1,5 +1,9 @@
 package com.portletguru.portletester;
 
+import java.io.IOException;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
 import javax.portlet.PortletConfig;
 import javax.portlet.PortletException;
 
@@ -10,6 +14,8 @@ import org.junit.Test;
 
 import com.portletguru.portlettester.PortletConfigGenerator;
 import com.portletguru.portlettester.PortletTester;
+import com.portletguru.portlettester.mocks.ActionRequestGenerator;
+import com.portletguru.portlettester.mocks.ActionResponseGenerator;
 
 /**
  * Testing different scenarios to use PortletTester
@@ -74,8 +80,31 @@ public class PortletTesterTest {
 		Assert.assertNotNull(portletConfig.getSupportedLocales());
 	}
 	
+	@Test
+	public void testActionRequest() {
+		ActionRequestGenerator requestGenerator = tester.getActionRequestGenerator();
+		ActionResponseGenerator responseGenerator = tester.getActionResponseGenerator();
+		requestGenerator.setAttribute(MockPortlet.TEST_ACTION_ATTRIBUTE, MockPortlet.TEST_ACTION_ATTRIBUTE_VALUE);
+		ActionRequest request = requestGenerator.generateActionRequest();
+		ActionResponse response = responseGenerator.generateActionResponse();
+		
+		Exception e = null;
+		try {
+			portlet.actionRequestTest(request, response);
+		} catch (IOException ex) {
+			e = ex;
+		} catch (PortletException ex) {
+			e = ex;
+		}
+		
+		Assert.assertNull(e);
+		
+		Assert.assertEquals(MockPortlet.TEST_ACTION_ATTRIBUTE_VALUE, response.getRenderParameterMap().get(MockPortlet.TEST_ACTION_ATTRIBUTE)[0]);
+		Assert.assertEquals("1", response.getRenderParameterMap().get(MockPortlet.TEST_ACTION_ATTRIBUTE_SIZE)[0]);
+	}
+	
 	@After
 	public void tearDown(){
-		tester.resetTestContext();
+		tester.reset();
 	}
 }

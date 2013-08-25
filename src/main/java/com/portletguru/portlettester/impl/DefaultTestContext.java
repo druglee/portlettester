@@ -24,6 +24,8 @@ import com.portletguru.portlettester.PortletConfigGenerator;
 import com.portletguru.portlettester.PortletStatus;
 import com.portletguru.portlettester.TestContext;
 import com.portletguru.portlettester.TestResultHolder;
+import com.portletguru.portlettester.mocks.ActionRequestGenerator;
+import com.portletguru.portlettester.mocks.ActionResponseGenerator;
 import com.portletguru.portlettester.mocks.MockActionRequest;
 import com.portletguru.portlettester.mocks.MockActionResponse;
 import com.portletguru.portlettester.mocks.MockEventRequest;
@@ -50,13 +52,16 @@ public class DefaultTestContext implements TestContext {
 	private EventResponse eventResponse;
 	private ResourceRequest resourceRequest;
 	private ResourceResponse resourceResponse;
-	private PortletConfigGenerator portletConfigGenerator;
 	
 	private PortalContext portalContext;
 	private PortletContext portletContext;
 	private PortletStatus portletStatus;
 	
 	private TestResultHolder testResult;
+	
+	private PortletConfigGenerator portletConfigGenerator;
+	private ActionRequestGenerator actionRequestGenerator;
+	private ActionResponseGenerator actionResponseGenerator;
 	
 	/**
 	 * Constructor
@@ -171,6 +176,21 @@ public class DefaultTestContext implements TestContext {
 		return portletConfigGenerator;
 	}
 	
+	public ActionRequestGenerator getActionRequestGenerator() {
+		if(actionRequestGenerator == null) {
+			actionRequestGenerator = new ActionRequestGenerator(portalContext, portletContext, portletStatus);
+		}
+		return actionRequestGenerator;
+	}
+	
+	public ActionResponseGenerator getActionResponseGenerator() {
+		ActionRequest actionRequest = getActionRequestGenerator().generateActionRequest();
+		if(actionResponseGenerator == null) {
+			actionResponseGenerator = new ActionResponseGenerator(portletStatus, actionRequest, testResult);
+		}
+		return actionResponseGenerator;
+	}
+	
 	/* (non-Javadoc)
 	 * @see com.portletmaniac.portlettester.TestContext#getTestResult()
 	 */
@@ -206,6 +226,10 @@ public class DefaultTestContext implements TestContext {
 		this.resourceResponse = null;
 		this.actionRequest = null;
 		this.actionResponse = null;
+		
+		this.portletConfigGenerator = null;
+		this.actionRequestGenerator = null;
+		
 		this.testResult.reset();
 	}
 	
