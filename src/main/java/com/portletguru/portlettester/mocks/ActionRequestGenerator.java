@@ -31,4 +31,9 @@ public class ActionRequestGenerator {
 	public ActionRequest generateActionRequest() {
 		return actionRequest;
 	}
+	
+	/* parameters */
+	public void setParameter(String key, String value) {
+		this.actionRequest.setParameter(key, new String[]{value});
+	}
 }

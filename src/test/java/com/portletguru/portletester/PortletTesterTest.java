@@ -81,7 +81,7 @@ public class PortletTesterTest {
 	}
 	
 	@Test
-	public void testActionRequest() {
+	public void testActionRequestAttributes() {
 		ActionRequestGenerator requestGenerator = tester.getActionRequestGenerator();
 		ActionResponseGenerator responseGenerator = tester.getActionResponseGenerator();
 		requestGenerator.setAttribute(MockPortlet.TEST_ACTION_ATTRIBUTE, MockPortlet.TEST_ACTION_ATTRIBUTE_VALUE);
@@ -101,6 +101,29 @@ public class PortletTesterTest {
 		
 		Assert.assertEquals(MockPortlet.TEST_ACTION_ATTRIBUTE_VALUE, response.getRenderParameterMap().get(MockPortlet.TEST_ACTION_ATTRIBUTE)[0]);
 		Assert.assertEquals("1", response.getRenderParameterMap().get(MockPortlet.TEST_ACTION_ATTRIBUTE_SIZE)[0]);
+	}
+	
+	@Test
+	public void testActionRequestParameters() {
+		ActionRequestGenerator requestGenerator = tester.getActionRequestGenerator();
+		ActionResponseGenerator responseGenerator = tester.getActionResponseGenerator();
+		requestGenerator.setParameter(MockPortlet.TEST_ACTION_PARAM, MockPortlet.TEST_ACTION_PARAM_VALUE);
+		ActionRequest request = requestGenerator.generateActionRequest();
+		ActionResponse response = responseGenerator.generateActionResponse();
+		
+		Exception e = null;
+		try {
+			portlet.actionRequestTest(request, response);
+		} catch (IOException ex) {
+			e = ex;
+		} catch (PortletException ex) {
+			e = ex;
+		}
+		
+		Assert.assertNull(e);
+		
+		Assert.assertEquals(MockPortlet.TEST_ACTION_PARAM_VALUE, response.getRenderParameterMap().get(MockPortlet.TEST_ACTION_PARAM)[0]);
+		Assert.assertEquals("1", response.getRenderParameterMap().get(MockPortlet.TEST_ACTION_PARAM_SIZE)[0]);
 	}
 	
 	@After
