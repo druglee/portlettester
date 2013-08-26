@@ -90,7 +90,7 @@ public class PortletTesterTest {
 		
 		Exception e = null;
 		try {
-			portlet.actionRequestTest(request, response);
+			portlet.portletRequestTest(request, response);
 		} catch (IOException ex) {
 			e = ex;
 		} catch (PortletException ex) {
@@ -113,7 +113,7 @@ public class PortletTesterTest {
 		
 		Exception e = null;
 		try {
-			portlet.actionRequestTest(request, response);
+			portlet.portletRequestTest(request, response);
 		} catch (IOException ex) {
 			e = ex;
 		} catch (PortletException ex) {

@@ -70,6 +70,13 @@ public class MockActionResponse extends MockStateAwareResponse implements
 		 * encoded in the attached render URL, but are not remembered after the redirect is issued.*/
 		
 		//I'm not quite sure about the meaning of the JSR286, the implementation is just a guess
+		if(isRenderParameterCalled()){
+			throw new IllegalStateException(
+				"One of the follow methods must have been called: setPortletMode, setWindowState, " +
+				"removePublicRenderParameter, setRenderParameter, setRenderParameters"
+			);
+		}
+		
 		if( !isPathValid(location) ) {
 			throw new IllegalArgumentException("location:" + location + " is a relative path.");
 		}

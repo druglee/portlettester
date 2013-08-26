@@ -40,7 +40,7 @@ public class MockPortlet extends GenericPortlet {
 		super.doEdit(request, response);
 	}
 	
-	public void actionRequestTest(ActionRequest request, ActionResponse response) throws IOException, PortletException {
+	public void portletRequestTest(ActionRequest request, ActionResponse response) throws IOException, PortletException {
 		/* test attributes are working */
 		Enumeration<String> attributeNames = request.getAttributeNames();
 		response.setRenderParameter(TEST_ACTION_ATTRIBUTE_SIZE, String.valueOf(Collections.list(attributeNames).size()));

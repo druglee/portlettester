@@ -15,7 +15,7 @@ import com.portletguru.portlettester.PortletStatus;
  * @author Derek Linde Li
  *
  */
-public class ActionRequestGenerator {
+public class ActionRequestGenerator extends ClientDataRequestGenerator {
 	
 	private MockActionRequest actionRequest;
 	
