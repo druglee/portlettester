@@ -85,7 +85,7 @@ public class PortletTesterTest {
 		ActionRequestGenerator requestGenerator = tester.getActionRequestGenerator();
 		ActionResponseGenerator responseGenerator = tester.getActionResponseGenerator();
 		requestGenerator.setAttribute(MockPortlet.TEST_ACTION_ATTRIBUTE, MockPortlet.TEST_ACTION_ATTRIBUTE_VALUE);
-		ActionRequest request = requestGenerator.generateActionRequest();
+		ActionRequest request = requestGenerator.generateRequest();
 		ActionResponse response = responseGenerator.generateActionResponse();
 		
 		Exception e = null;
@@ -108,7 +108,7 @@ public class PortletTesterTest {
 		ActionRequestGenerator requestGenerator = tester.getActionRequestGenerator();
 		ActionResponseGenerator responseGenerator = tester.getActionResponseGenerator();
 		requestGenerator.setParameter(MockPortlet.TEST_ACTION_PARAM, MockPortlet.TEST_ACTION_PARAM_VALUE);
-		ActionRequest request = requestGenerator.generateActionRequest();
+		ActionRequest request = requestGenerator.generateRequest();
 		ActionResponse response = responseGenerator.generateActionResponse();
 		
 		Exception e = null;

@@ -17,10 +17,14 @@ import com.portletguru.portlettester.PortletStatus;
  */
 public class MockEventRequest extends MockPortletRequest implements
 		EventRequest {
+	
+	protected String method;
+	protected Event event;
 
 	public MockEventRequest(PortalContext portalContext,
 			PortletContext portletContext, PortletStatus portletStatus) {
 		super(portalContext, portletContext, portletStatus);
+		this.method = "GET";
 	}
 
 	/* (non-Javadoc)
@@ -29,7 +33,10 @@ public class MockEventRequest extends MockPortletRequest implements
 	 */
 	
 	public Event getEvent() {
-		return new MockEvent();
+		if(event == null) {
+			event = new MockEvent();
+		}
+		return event;
 	}
 
 	/* (non-Javadoc)
@@ -37,7 +44,7 @@ public class MockEventRequest extends MockPortletRequest implements
 	 */
 	
 	public String getMethod() {
-		return "POST";
+		return method;
 	}
 
 	/* (non-Javadoc)

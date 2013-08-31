@@ -9,6 +9,7 @@ import com.portletguru.portlettester.PortletStatus;
 
 public class MockRenderRequest extends MockPortletRequest implements RenderRequest {
 	
+	protected String etag;
 	
 	/**
 	 * Constructor
@@ -21,24 +22,16 @@ public class MockRenderRequest extends MockPortletRequest implements RenderReque
 		super(portalContext, portletContext, portletStatus);
 	}
 	
-	
-	public Object getAttribute(String name) {
-		/* According to JSR286: 
-		 * The main intent of this attribute is to allow frameworks implemented 
-		 * on top of the Java Portlet Specification to perform the correct type 
-		 * casts from the PortletRequest/PortletResponse to a specific 
-		 * request/response pair
-		 * */
-		if ( PortletRequest.LIFECYCLE_PHASE.equals(name) ) {
-			return PortletRequest.RENDER_PHASE;
+	@Override
+	public String getProperty(String name) {
+		if(RenderRequest.ETAG.equals(name)) {
+			return getETag();
 		}
-		return super.getAttribute(name);
+		return super.getProperty(name);
 	}
-
 	
 	public String getETag() {
-		//TODO - To be researched.
-		return null;
+		return etag;
 	}
 
 	

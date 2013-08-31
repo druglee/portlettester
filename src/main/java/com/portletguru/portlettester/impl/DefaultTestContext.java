@@ -184,7 +184,7 @@ public class DefaultTestContext implements TestContext {
 	}
 	
 	public ActionResponseGenerator getActionResponseGenerator() {
-		ActionRequest actionRequest = getActionRequestGenerator().generateActionRequest();
+		ActionRequest actionRequest = getActionRequestGenerator().generateRequest();
 		if(actionResponseGenerator == null) {
 			actionResponseGenerator = new ActionResponseGenerator(portletStatus, actionRequest, testResult);
 		}

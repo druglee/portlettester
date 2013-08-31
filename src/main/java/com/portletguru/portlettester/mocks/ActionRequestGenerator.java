@@ -9,6 +9,7 @@ import javax.portlet.PortletContext;
 
 import com.portletguru.portlettester.PortletStatus;
 
+
 /**
  * Helper class to generate a ActionRequest object
  * 
@@ -17,23 +18,16 @@ import com.portletguru.portlettester.PortletStatus;
  */
 public class ActionRequestGenerator extends ClientDataRequestGenerator {
 	
-	private MockActionRequest actionRequest;
-	
-	public ActionRequestGenerator(PortalContext portalContext, PortletContext portletContext, PortletStatus portletStatus) {
-		this.actionRequest = new MockActionRequest(portalContext, portletContext, portletStatus);
+	public ActionRequestGenerator(PortalContext portalContext,
+			PortletContext portletContext, PortletStatus portletStatus) {
+		super(portalContext, portletContext, portletStatus);
+		this.portletRequest = new MockActionRequest(portalContext, portletContext, portletStatus);
 	}
 
-	/* attributes */
-	public void setAttribute(String key, Object value) {
-		this.actionRequest.setAttribute(key, value);
+	@Override
+	public ActionRequest generateRequest() {
+		return (ActionRequest) portletRequest;
 	}
-	
-	public ActionRequest generateActionRequest() {
-		return actionRequest;
-	}
-	
-	/* parameters */
-	public void setParameter(String key, String value) {
-		this.actionRequest.setParameter(key, new String[]{value});
-	}
+
+
 }

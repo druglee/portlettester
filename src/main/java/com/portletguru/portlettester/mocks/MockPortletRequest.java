@@ -4,6 +4,8 @@ import java.security.Principal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -16,30 +18,61 @@ import javax.portlet.PortletRequest;
 import javax.portlet.PortletSession;
 import javax.portlet.WindowState;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 
 import com.portletguru.portlettester.PortletStatus;
-import com.portletguru.portlettester.mocks.http.MockHttpServletRequest;
 import com.portletguru.portlettester.utils.Constants;
 
 public abstract class MockPortletRequest implements PortletRequest {
 	
-	private PortletSession portletSession;
-	private PortalContext portalContext;
-	private MockHttpServletRequest request;
-	private PortletContext portletContext;
-	private String remoteUser;
-	private Principal userPrincipal;
-	private Locale locale;
-	private PortletStatus portletStatus;
+	protected PortletSession portletSession;
+	protected PortalContext portalContext;
+	protected PortletContext portletContext;
+	protected String remoteUser;
+	protected Principal userPrincipal;
+	protected Locale locale;
+	protected PortletStatus portletStatus;
+	
+	/* normally these should be in HttpServletRequest */
+	protected String authType;
+	protected List<String> roles;
+	protected Map<String,Object> attributes;
+	protected Map<String,String[]> parameters;
+	protected boolean secured;
+	protected List<Locale> locales;
+	protected List<Cookie> cookies;
+	
+	protected String requestedSessionId;
+	protected boolean sessionIdValid;
+	protected String scheme;
+	protected String serverName;
+	protected int serverPort;
+	protected String responseContentType;
+	protected List<String> responseContentTypes;
 	
 	public MockPortletRequest(PortalContext portalContext, PortletContext portletContext,
 		PortletStatus portletStatus	) {
 		this.portalContext = portalContext;
 		this.portletContext = portletContext;
 		this.portletStatus = portletStatus;
-		this.request = new MockHttpServletRequest();
 		this.remoteUser = "tester";
 		this.userPrincipal = new MockPrinciple();
+		
+		this.authType = HttpServletRequest.BASIC_AUTH;
+		this.roles = new LinkedList<String>();
+		this.attributes = new HashMap<String, Object>();
+		this.parameters = new HashMap<String, String[]>();
+		this.locales = new LinkedList<Locale>();
+		this.cookies = new LinkedList<Cookie>();
+		
+		this.sessionIdValid = true;
+		this.requestedSessionId = "sessionId";
+		this.scheme = "http";
+		this.serverName = "portletguru";
+		this.serverPort = 8080;
+		
+		this.responseContentType = Constants.TEXT_HTML;
+		this.responseContentTypes = new LinkedList<String>();
 	}
 
 	
@@ -81,10 +114,7 @@ public abstract class MockPortletRequest implements PortletRequest {
 
 	
 	public PortletSession getPortletSession() {		
-		if( portletSession == null){
-			portletSession = new MockPortletSession(portletContext);
-		}
-		return portletSession;
+		return getPortletSession(true);
 	}
 
 	
@@ -129,7 +159,7 @@ public abstract class MockPortletRequest implements PortletRequest {
 		 * authentication type. If the user is not authenticated the getAuthType method must return
 		 * null
 		 * */
-		return request.getAuthType();
+		return authType;
 	}
 
 	
@@ -159,7 +189,7 @@ public abstract class MockPortletRequest implements PortletRequest {
 
 	
 	public boolean isUserInRole(String role) {
-		return request.isUserInRole(role);
+		return roles.contains(role);
 	}
 
 	
@@ -170,59 +200,72 @@ public abstract class MockPortletRequest implements PortletRequest {
 			//TODO - Make this better
 			return new MockProfile();
 		} else if ( PortletRequest.LIFECYCLE_PHASE.equals(name) ) {
+			/* According to JSR286: 
+			 * The main intent of this attribute is to allow frameworks implemented 
+			 * on top of the Java Portlet Specification to perform the correct type 
+			 * casts from the PortletRequest/PortletResponse to a specific 
+			 * request/response pair
+			 * */
 			return getLifeCycle();
 		}
-		return request.getAttribute(name);
+		return attributes.get(name);
 	}
 
 	
 	public Enumeration<String> getAttributeNames() {		
-		return request.getAttributeNames();
+		return Collections.enumeration(attributes.keySet());
 	}
 
 	
-	public String getParameter(String name) {		
-		return request.getParameter(name);
+	public String getParameter(String name) {
+		String[] values = parameters.get(name);
+		if(values != null) {
+			return values[0];
+		}
+		return null;
 	}
 
 	
 	public Enumeration<String> getParameterNames() {
-		return request.getParameterNames();
+		return Collections.enumeration(parameters.keySet());
 	}
 
 	
 	public String[] getParameterValues(String name) {		
-		return request.getParameterValues(name);
+		return parameters.get(name);
 	}
 
 	
 	public Map<String, String[]> getParameterMap() {		
-		return Collections.unmodifiableMap( request.getParameterMap() );
+		return Collections.unmodifiableMap( parameters );
 	}
 
 	
 	public boolean isSecure() {		
-		return request.isSecure();
+		return secured;
 	}
 
 	
 	public void setAttribute(String name, Object o) {
-		request.setAttribute(name, o);
+		if(name == null){
+			throw new IllegalArgumentException("name cannot be null");
+		}
+		attributes.put(name, o);
 	}
 
 	
 	public void removeAttribute(String name) {
-		request.removeAttribute(name);
+		attributes.remove(name);
 	}
 
 	
 	public String getRequestedSessionId() {
-		return request.getRequestedSessionId();
+		return requestedSessionId;
 	}
 
 	
 	public boolean isRequestedSessionIdValid() {
-		return request.isRequestedSessionIdValid();
+		return sessionIdValid;
 	}
 
 	
@@ -232,7 +275,7 @@ public abstract class MockPortletRequest implements PortletRequest {
 		 * obtain, using the getResponseContentType method of the request object, a string
 		 * representing the default content type the portlet container assumes for the output.
 		 * */
-		return Constants.TEXT_HTML;
+		return responseContentType;
 	}
 
 	
@@ -244,7 +287,6 @@ public abstract class MockPortletRequest implements PortletRequest {
 		   the portlet container supports in order of preference. The first element of the enumeration
 		   must be the same content type returned by the getResponseContentType method.
 		 * */
-		List<String> responseContentTypes = new ArrayList<String>();
 		responseContentTypes.add(getResponseContentType());
 		return Collections.enumeration(responseContentTypes);
 	}
@@ -252,7 +294,7 @@ public abstract class MockPortletRequest implements PortletRequest {
 	
 	public Locale getLocale() {
 		if (locale == null) {
-			locale = request.getLocale();
+			locale = locales.get(0);
 		}
 		if (locale == null) {
 			locale = new Locale("en");
@@ -262,22 +304,22 @@ public abstract class MockPortletRequest implements PortletRequest {
 
 	
 	public Enumeration<Locale> getLocales() {		
-		return request.getLocales();
+		return Collections.enumeration(locales);
 	}
 
 	
 	public String getScheme() {		
-		return request.getScheme();
+		return scheme;
 	}
 
 	
 	public String getServerName() {
-		return this.request.getServerName();
+		return serverName;
 	}
 
 	
 	public int getServerPort() {		
-		return this.request.getServerPort();
+		return serverPort;
 	}
 
 	
@@ -287,7 +329,7 @@ public abstract class MockPortletRequest implements PortletRequest {
 
 	
 	public Cookie[] getCookies() {		
-		return this.request.getCookies();
+		return cookies.toArray(new Cookie[]{});
 	}
 
 	
@@ -300,19 +342,6 @@ public abstract class MockPortletRequest implements PortletRequest {
 	public Map<String, String[]> getPublicParameterMap() {
 		//TODO - To be researched
 		return this.portletStatus.getPublicParameterMap();
-	}
-		
-	/**
-	 * This is not a method from the PortletRequest interface, this allows
-	 *  the user to set up the require parameters
-	 * @param name
-	 * @param value
-	 */
-	public void setParameter(String name, String[] value){
-		if( name == null ) {
-			throw new IllegalArgumentException("parameter name cannot be null");
-		}
-		request.setParameter(name, value);
 	}
 	
 	/**

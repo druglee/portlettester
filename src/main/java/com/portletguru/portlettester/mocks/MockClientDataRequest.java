@@ -21,10 +21,21 @@ import com.portletguru.portlettester.PortletStatus;
  */
 public abstract class MockClientDataRequest extends MockPortletRequest implements
 		ClientDataRequest {
+	
+	protected String characterEncoding;
+	protected String contentType;
+	protected int contentLength;
+	protected String method;
+	protected BufferedReader bufferedReader;
+	protected InputStream inputStream;
 
 	public MockClientDataRequest(PortalContext portalContext,
 			PortletContext portletContext, PortletStatus portletStatus) {
 		super(portalContext, portletContext, portletStatus);
+		
+		this.characterEncoding = "UTF-8";
+		this.contentType = "text/html";
+		this.method = "GET";
 	}
 
 	/* (non-Javadoc)
@@ -32,7 +43,7 @@ public abstract class MockClientDataRequest extends MockPortletRequest implement
 	 */
 	
 	public InputStream getPortletInputStream() throws IOException {
-		throw new UnsupportedOperationException("Not available");
+		return inputStream;
 	}
 
 	/* (non-Javadoc)
@@ -41,8 +52,7 @@ public abstract class MockClientDataRequest extends MockPortletRequest implement
 	
 	public void setCharacterEncoding(String enc)
 			throws UnsupportedEncodingException {
-		// TODO Auto-generated method stub
-
+		characterEncoding = enc;
 	}
 
 	/* (non-Javadoc)
@@ -51,7 +61,7 @@ public abstract class MockClientDataRequest extends MockPortletRequest implement
 	
 	public BufferedReader getReader() throws UnsupportedEncodingException,
 			IOException {
-		throw new UnsupportedOperationException("Not available");
+		return bufferedReader;
 	}
 
 	/* (non-Javadoc)
@@ -59,8 +69,8 @@ public abstract class MockClientDataRequest extends MockPortletRequest implement
 	 * Always return UTF-8
 	 */
 	
-	public String getCharacterEncoding() {		
-		return "UTF-8";
+	public String getCharacterEncoding() {
+		return characterEncoding;
 	}
 
 	/* (non-Javadoc)
@@ -68,7 +78,7 @@ public abstract class MockClientDataRequest extends MockPortletRequest implement
 	 */
 	
 	public String getContentType() {
-		throw new UnsupportedOperationException("Not available");
+		return contentType;
 	}
 
 	/* (non-Javadoc)
@@ -77,7 +87,7 @@ public abstract class MockClientDataRequest extends MockPortletRequest implement
 	 */
 	
 	public int getContentLength() {
-		return 128;
+		return contentLength;
 	}
 
 	/* (non-Javadoc)
@@ -86,7 +96,7 @@ public abstract class MockClientDataRequest extends MockPortletRequest implement
 	 */
 	
 	public String getMethod() {		
-		return "POST";
+		return method;
 	}
 
 }

@@ -26,7 +26,4 @@ public class MockActionRequest extends MockClientDataRequest implements
 	public String getLifeCycle() {
 		return PortletRequest.ACTION_PHASE;
 	}
-	
-
-
 }

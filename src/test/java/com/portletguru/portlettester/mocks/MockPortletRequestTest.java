@@ -9,6 +9,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import javax.portlet.PortalContext;
+import javax.portlet.PortletContext;
 import javax.portlet.PortletMode;
 import javax.portlet.PortletRequest;
 import javax.portlet.WindowState;
@@ -23,19 +25,27 @@ import com.portletguru.portlettester.TestResultHolder;
  * @author Derek Linde Li
  *
  */
-public class TestMockPortletRequest {
+public class MockPortletRequestTest {
+	
+	/* this class is for testing purpose only, doing this is because MockPortletRequest is an 
+	 * abstract class */
+	private static class TestingPurposePortletRequest extends MockPortletRequest {
+		public TestingPurposePortletRequest(PortalContext portalContext,
+				PortletContext portletContext, PortletStatus portletStatus) {
+			super(portalContext, portletContext, portletStatus);
+		}
+
+		@Override
+		public String getLifeCycle() {
+			return null;
+		}
+	}
 	
 	private MockPortletRequest request;
 	
 	@Before
 	public void setup(){
-		request = new MockPortletRequest( new MockPortalContext(), new MockPortletContext(new TestResultHolder()), new PortletStatus()) 
-					{			
-						@Override
-						public String getLifeCycle() {
-							return null;
-						}
-					};
+		request = new TestingPurposePortletRequest(new MockPortalContext(), new MockPortletContext(new TestResultHolder()), new PortletStatus());
 	}
 	
 	@Test
@@ -89,19 +99,11 @@ public class TestMockPortletRequest {
 		assertNull(request.getParameter(key));
 		
 		// If the value for the key exists, it should return the corresponding value
-		request.setParameter(key, values );
+		request.parameters.put(key, values);
 		assertArrayEquals(values, request.getParameterValues(key));
 		// It should return the first value
 		assertEquals(value1, request.getParameter(key));
 		
-		// If the key is null, it should throw an IllegalArgumentException
-		IllegalArgumentException excep = null;
-		try {
-			request.setParameter(null, values);
-		} catch( IllegalArgumentException e ) {
-			excep = e;
-		}
-		assertNotNull(excep);
 
 		// The parameter map should be immutable
 		UnsupportedOperationException uoe = null;

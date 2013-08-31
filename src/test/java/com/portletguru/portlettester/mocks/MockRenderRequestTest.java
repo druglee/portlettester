@@ -17,7 +17,7 @@ import com.portletguru.portlettester.TestResultHolder;
  * @author Derek Linde Li
  *
  */
-public class TestMockRenderRequest {
+public class MockRenderRequestTest {
 	private MockRenderRequest request;
 	
 	@Before
