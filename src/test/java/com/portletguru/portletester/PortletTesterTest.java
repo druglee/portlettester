@@ -86,7 +86,7 @@ public class PortletTesterTest {
 		ActionResponseGenerator responseGenerator = tester.getActionResponseGenerator();
 		requestGenerator.setAttribute(MockPortlet.TEST_ACTION_ATTRIBUTE, MockPortlet.TEST_ACTION_ATTRIBUTE_VALUE);
 		ActionRequest request = requestGenerator.generateRequest();
-		ActionResponse response = responseGenerator.generateActionResponse();
+		ActionResponse response = responseGenerator.generateResponse();
 		
 		Exception e = null;
 		try {
@@ -109,7 +109,7 @@ public class PortletTesterTest {
 		ActionResponseGenerator responseGenerator = tester.getActionResponseGenerator();
 		requestGenerator.setParameter(MockPortlet.TEST_ACTION_PARAM, MockPortlet.TEST_ACTION_PARAM_VALUE);
 		ActionRequest request = requestGenerator.generateRequest();
-		ActionResponse response = responseGenerator.generateActionResponse();
+		ActionResponse response = responseGenerator.generateResponse();
 		
 		Exception e = null;
 		try {
