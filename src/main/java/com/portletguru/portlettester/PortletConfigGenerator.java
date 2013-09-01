@@ -56,6 +56,10 @@ public class PortletConfigGenerator {
 		this.portletConfig.setDefaultNamespace(defaultNamespace);
 	}
 	
+	public void addInitParameter(String key, String value) {
+		initParameters.put(key, value);
+	}
+	
 	/* container runtime options */
 	public void setContainerRuntimeOptions(
 			Map<String, String[]> containerRuntimeOptions) {

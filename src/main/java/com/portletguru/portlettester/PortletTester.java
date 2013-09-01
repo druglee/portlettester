@@ -10,6 +10,12 @@ import javax.portlet.PortletException;
 import com.portletguru.portlettester.impl.DefaultTestContext;
 import com.portletguru.portlettester.mocks.ActionRequestGenerator;
 import com.portletguru.portlettester.mocks.ActionResponseGenerator;
+import com.portletguru.portlettester.mocks.EventRequestGenerator;
+import com.portletguru.portlettester.mocks.EventResponseGenerator;
+import com.portletguru.portlettester.mocks.RenderRequestGenerator;
+import com.portletguru.portlettester.mocks.RenderResponseGenerator;
+import com.portletguru.portlettester.mocks.ResourceRequestGenerator;
+import com.portletguru.portlettester.mocks.ResourceResponseGenerator;
 
 /**
  * @author Derek Linde Li
@@ -42,6 +48,30 @@ public class PortletTester {
 	/* generator getters */
 	public PortletConfigGenerator getPortletConfigGenerator() {
 		return testContext.getPortletConfigGenerator();
+	}
+	
+	public RenderRequestGenerator getRenderRequestGenerator() {
+		return testContext.getRenderRequestGenerator();
+	}
+	
+	public RenderResponseGenerator getRenderResponseGenerator() {
+		return testContext.getRenderResponseGenerator();
+	}
+	
+	public ResourceRequestGenerator getResourceRequestGenerator() {
+		return testContext.getResourceRequestGenerator();
+	}
+	
+	public ResourceResponseGenerator getResourceResponseGenerator() {
+		return testContext.getResourceResponseGenerator();
+	}
+	
+	public EventRequestGenerator getEventRequestGenerator() {
+		return testContext.getEventRequestGenerator();
+	}
+	
+	public EventResponseGenerator getEventResponseGenerator() {
+		return testContext.getEventResponseGenerator();
 	}
 	
 	public ActionRequestGenerator getActionRequestGenerator() {
