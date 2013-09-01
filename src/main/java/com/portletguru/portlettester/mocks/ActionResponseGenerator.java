@@ -13,15 +13,15 @@ import com.portletguru.portlettester.TestResultHolder;
  * @author Derek Linde Li
  *
  */
-public class ActionResponseGenerator {
+public class ActionResponseGenerator extends StateAwareResponseGenerator {
 	
-	private MockActionResponse actionResponse;
 	
 	public ActionResponseGenerator(PortletStatus portletStatus, PortletRequest portletRequest, TestResultHolder resultHolder) {
-		actionResponse = new MockActionResponse(portletStatus, portletRequest, resultHolder);
+		super(portletStatus, portletRequest);
+		portletResponse = new MockActionResponse(portletStatus, portletRequest, resultHolder);
 	}
 
-	public ActionResponse generateActionResponse() {
-		return actionResponse;
+	public ActionResponse generateResponse() {
+		return (ActionResponse) portletResponse;
 	}
 }
