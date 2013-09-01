@@ -26,6 +26,8 @@ import com.portletguru.portlettester.TestContext;
 import com.portletguru.portlettester.TestResultHolder;
 import com.portletguru.portlettester.mocks.ActionRequestGenerator;
 import com.portletguru.portlettester.mocks.ActionResponseGenerator;
+import com.portletguru.portlettester.mocks.EventRequestGenerator;
+import com.portletguru.portlettester.mocks.EventResponseGenerator;
 import com.portletguru.portlettester.mocks.MockActionRequest;
 import com.portletguru.portlettester.mocks.MockActionResponse;
 import com.portletguru.portlettester.mocks.MockEventRequest;
@@ -37,21 +39,16 @@ import com.portletguru.portlettester.mocks.MockRenderRequest;
 import com.portletguru.portlettester.mocks.MockRenderResponse;
 import com.portletguru.portlettester.mocks.MockResourceRequest;
 import com.portletguru.portlettester.mocks.MockResourceResponse;
+import com.portletguru.portlettester.mocks.RenderRequestGenerator;
+import com.portletguru.portlettester.mocks.RenderResponseGenerator;
+import com.portletguru.portlettester.mocks.ResourceRequestGenerator;
+import com.portletguru.portlettester.mocks.ResourceResponseGenerator;
 
 /**
  * @author Derek Linde Li
  *
  */
 public class DefaultTestContext implements TestContext {
-	
-	private ActionRequest actionRequest;
-	private ActionResponse actionResponse;
-	private RenderRequest renderRequest;
-	private RenderResponse renderResponse;
-	private EventRequest eventRequest;
-	private EventResponse eventResponse;
-	private ResourceRequest resourceRequest;
-	private ResourceResponse resourceResponse;
 	
 	private PortalContext portalContext;
 	private PortletContext portletContext;
@@ -60,8 +57,15 @@ public class DefaultTestContext implements TestContext {
 	private TestResultHolder testResult;
 	
 	private PortletConfigGenerator portletConfigGenerator;
+	
 	private ActionRequestGenerator actionRequestGenerator;
 	private ActionResponseGenerator actionResponseGenerator;
+	private RenderRequestGenerator renderRequestGenerator;
+	private RenderResponseGenerator renderResponseGenerator;
+	private EventRequestGenerator eventRequestGenerator;
+	private EventResponseGenerator eventResponseGenerator;
+	private ResourceRequestGenerator resourceRequestGenerator;
+	private ResourceResponseGenerator resourceResponseGenerator;
 	
 	/**
 	 * Constructor
@@ -77,93 +81,7 @@ public class DefaultTestContext implements TestContext {
 		portletContext = new MockPortletContext(contextInitParameters, testResult);
 	}
 	
-	/* (non-Javadoc)
-	 * @see com.portletmaniac.portlettester.TestContext#getActionRequest()
-	 */
 	
-	public ActionRequest getActionRequest() {
-		if( actionRequest == null ) {
-			actionRequest = new MockActionRequest(portalContext, portletContext, portletStatus);
-		}
-		return actionRequest;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.portletmaniac.portlettester.TestContext#getActionResponse()
-	 */
-	
-	public ActionResponse getActionResponse() {
-		if( actionResponse == null ) {
-			actionResponse = new MockActionResponse(portletStatus, getActionRequest(), testResult);
-		}
-		return actionResponse;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.portletmanic.portlettester.TestContext#getRenderRequest()
-	 */
-	
-	public RenderRequest getRenderRequest() {
-		if( renderRequest == null){
-			renderRequest = new MockRenderRequest(portalContext, portletContext, portletStatus);
-		}
-		return renderRequest;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.portletmanic.portlettester.TestContext#getRenderResponse()
-	 */
-	
-	public RenderResponse getRenderResponse() {
-		if( renderResponse == null){
-			renderResponse = new MockRenderResponse(getRenderRequest(), testResult);
-		}
-		return renderResponse;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.portletmanic.portlettester.TestContext#getEventRequest()
-	 */
-	
-	public EventRequest getEventRequest() {
-		if( eventRequest == null){
-			eventRequest = new MockEventRequest(portalContext, portletContext, portletStatus);
-		}
-		return eventRequest;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.portletmanic.portlettester.TestContext#getEventResponse()
-	 */
-	
-	public EventResponse getEventResponse() {
-		if( eventResponse == null){
-			eventResponse = new MockEventResponse(portletStatus, getEventRequest());
-		}
-		return eventResponse;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.portletmanic.portlettester.TestContext#getResourceRequest()
-	 */
-	
-	public ResourceRequest getResourceRequest() {
-		if( resourceRequest == null){
-			resourceRequest = new MockResourceRequest(portalContext, portletContext, portletStatus);
-		}
-		return resourceRequest;
-	}
-
-	/* (non-Javadoc)
-	 * @see com.portletmanic.portlettester.TestContext#getResourceResponse()
-	 */
-	
-	public ResourceResponse getResourceResponse() {
-		if( resourceResponse == null){
-			resourceResponse = new MockResourceResponse(getResourceRequest(), testResult);
-		}
-		return resourceResponse;
-	}
 	
 	/* (non-Javadoc)
 	 * @see com.portletmanic.portlettester.TestContext#getPortletConfigGenerator()
@@ -171,7 +89,7 @@ public class DefaultTestContext implements TestContext {
 	
 	public PortletConfigGenerator getPortletConfigGenerator() {
 		if(portletConfigGenerator == null) {
-			portletConfigGenerator = new PortletConfigGenerator(portletContext);
+			portletConfigGenerator = new PortletConfigGenerator(portletContext, portletStatus);
 		}
 		return portletConfigGenerator;
 	}
@@ -189,6 +107,52 @@ public class DefaultTestContext implements TestContext {
 			actionResponseGenerator = new ActionResponseGenerator(portletStatus, actionRequest, testResult);
 		}
 		return actionResponseGenerator;
+	}
+	
+	public ResourceRequestGenerator getResourceRequestGenerator() {
+		if(resourceRequestGenerator == null) {
+			resourceRequestGenerator = new ResourceRequestGenerator(portalContext, portletContext, portletStatus);
+		}
+		return resourceRequestGenerator;
+	}
+
+	public ResourceResponseGenerator getResourceResponseGenerator() {
+		
+		if(resourceResponseGenerator == null) {
+			ResourceRequest request = getResourceRequestGenerator().generateRequest();
+			resourceResponseGenerator = new ResourceResponseGenerator(request, testResult);
+		}
+		return resourceResponseGenerator;
+	}
+
+	public RenderRequestGenerator getRenderRequestGenerator() {
+		if(renderRequestGenerator == null) {
+			renderRequestGenerator = new RenderRequestGenerator(portalContext, portletContext, portletStatus);
+		}
+		return renderRequestGenerator;
+	}
+
+	public RenderResponseGenerator getRenderResponseGenerator() {
+		if(renderResponseGenerator == null) {
+			RenderRequest request = getRenderRequestGenerator().generateRequest();
+			renderResponseGenerator = new RenderResponseGenerator(request, testResult);
+		}
+		return renderResponseGenerator;
+	}
+
+	public EventRequestGenerator getEventRequestGenerator() {
+		if(eventRequestGenerator == null) {
+			eventRequestGenerator = new EventRequestGenerator(portalContext, portletContext, portletStatus);
+		}
+		return eventRequestGenerator;
+	}
+
+	public EventResponseGenerator getEventResponseGenerator() {
+		if(eventResponseGenerator == null) {
+			EventRequest request = getEventRequestGenerator().generateRequest();
+			eventResponseGenerator = new EventResponseGenerator(portletStatus, request);
+		}
+		return eventResponseGenerator;
 	}
 	
 	/* (non-Javadoc)
@@ -218,19 +182,10 @@ public class DefaultTestContext implements TestContext {
 	 */
 	
 	public void reset() {
-		this.renderRequest = null;
-		this.renderResponse = null;
-		this.eventRequest = null;
-		this.eventResponse = null;
-		this.resourceRequest = null;
-		this.resourceResponse = null;
-		this.actionRequest = null;
-		this.actionResponse = null;
 		
 		this.portletConfigGenerator = null;
 		this.actionRequestGenerator = null;
 		
 		this.testResult.reset();
 	}
-	
 }

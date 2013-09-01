@@ -3,20 +3,18 @@
  */
 package com.portletguru.portlettester;
 
-import javax.portlet.ActionRequest;
-import javax.portlet.ActionResponse;
-import javax.portlet.EventRequest;
-import javax.portlet.EventResponse;
 import javax.portlet.Portlet;
 import javax.portlet.PortletConfig;
 import javax.portlet.PortletException;
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
-import javax.portlet.ResourceRequest;
-import javax.portlet.ResourceResponse;
 
 import com.portletguru.portlettester.mocks.ActionRequestGenerator;
 import com.portletguru.portlettester.mocks.ActionResponseGenerator;
+import com.portletguru.portlettester.mocks.EventRequestGenerator;
+import com.portletguru.portlettester.mocks.EventResponseGenerator;
+import com.portletguru.portlettester.mocks.RenderRequestGenerator;
+import com.portletguru.portlettester.mocks.RenderResponseGenerator;
+import com.portletguru.portlettester.mocks.ResourceRequestGenerator;
+import com.portletguru.portlettester.mocks.ResourceResponseGenerator;
 
 /**
  * @author Derek Linde Li
@@ -24,23 +22,21 @@ import com.portletguru.portlettester.mocks.ActionResponseGenerator;
  */
 public interface TestContext {
 	
-	public RenderRequest getRenderRequest();
-	public RenderResponse getRenderResponse();
-	public EventRequest getEventRequest();
-	public EventResponse getEventResponse();
-	public ResourceRequest getResourceRequest();
-	public ResourceResponse getResourceResponse();
-	public ActionRequest getActionRequest();
-	public ActionResponse getActionResponse();
-	public void reset();
-	
-	
 	public void initPortlet( Portlet portlet, PortletConfig portletConfig) throws PortletException;
 	public void initPortlet( Portlet portlet ) throws PortletException;
 	
 	public TestResultHolder getTestResult();
 	
+	/* generators */
 	public PortletConfigGenerator getPortletConfigGenerator();
 	public ActionRequestGenerator getActionRequestGenerator();
 	public ActionResponseGenerator getActionResponseGenerator();
+	public ResourceRequestGenerator getResourceRequestGenerator();
+	public ResourceResponseGenerator getResourceResponseGenerator();
+	public RenderRequestGenerator getRenderRequestGenerator();
+	public RenderResponseGenerator getRenderResponseGenerator();
+	public EventRequestGenerator getEventRequestGenerator();
+	public EventResponseGenerator getEventResponseGenerator();
+	
+	public void reset();
 }

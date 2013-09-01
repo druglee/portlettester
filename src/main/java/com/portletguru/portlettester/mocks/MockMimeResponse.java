@@ -16,10 +16,10 @@ import javax.portlet.MimeResponse;
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import javax.portlet.ResourceURL;
-import javax.servlet.http.HttpServletResponse;
 
 import com.portletguru.portlettester.TestResultHolder;
-import com.portletguru.portlettester.mocks.http.MockHttpServletResponse;
+import com.portletguru.portlettester.mocks.http.MockPrintWriter;
+import com.portletguru.portlettester.mocks.http.MockServletOutputStream;
 
 /**
  * @author Derek Linde Li
@@ -28,12 +28,20 @@ import com.portletguru.portlettester.mocks.http.MockHttpServletResponse;
 public abstract class MockMimeResponse extends MockPortletResponse implements
 		MimeResponse {
 	
-	private String contentType;
-	protected HttpServletResponse response;
 	private boolean isCalledGetPortletOutputStream;
- 	private boolean isCalledGetWriter;
- 	private PortletRequest request;
- 	private Map<String, Object> existingHeaders;
+	private boolean isCalledGetWriter;
+	//TODO : take care of the committed state
+	private boolean committed;
+	
+	private int bufferSize;
+	private PrintWriter writer;
+	private OutputStream outputStream;
+	private CacheControl cacheControl;
+	
+	protected String contentType;
+	protected String characterEncoding;
+	protected Locale locale;
+	protected Map<String, Object> existingHeaders;
  	
  	public MockMimeResponse(PortletRequest request, TestResultHolder resultHolder) {
  		existingHeaders = new LinkedHashMap<String, Object>();
@@ -43,7 +51,9 @@ public abstract class MockMimeResponse extends MockPortletResponse implements
  			existingHeaders.put(entry.getKey(), entry.getValue());
  		}
  		this.request = request;
- 		this.response = new MockHttpServletResponse(resultHolder);
+ 		this.writer = new PrintWriter(new MockPrintWriter(resultHolder));
+ 		this.outputStream = new MockServletOutputStream(resultHolder);
+ 		this.cacheControl = new MockCacheControl();
 	}
 
 	/* (non-Javadoc)
@@ -51,6 +61,9 @@ public abstract class MockMimeResponse extends MockPortletResponse implements
 	 */
 	
 	public String getContentType() {
+		if(contentType == null) {
+			contentType = request.getResponseContentType();
+		}
 		return contentType;
 	}
 
@@ -81,7 +94,6 @@ public abstract class MockMimeResponse extends MockPortletResponse implements
 			throw new IllegalArgumentException("content type" + type + " is not supported");
 		}
 		this.contentType = type;
-		this.response.setContentType(type);
 	}
 
 	/* (non-Javadoc)
@@ -89,7 +101,7 @@ public abstract class MockMimeResponse extends MockPortletResponse implements
 	 */
 	
 	public String getCharacterEncoding() {
-		return response.getCharacterEncoding();
+		return characterEncoding;
 	}
 
 	/* (non-Javadoc)
@@ -105,7 +117,7 @@ public abstract class MockMimeResponse extends MockPortletResponse implements
 			setContentType(request.getResponseContentType());
 		}
 		isCalledGetWriter = true;
-		return response.getWriter();
+		return writer;
 	}
 
 	/* (non-Javadoc)
@@ -113,7 +125,10 @@ public abstract class MockMimeResponse extends MockPortletResponse implements
 	 */
 	
 	public Locale getLocale() {
-		return request.getLocale();
+		if(locale == null) {
+			locale = request.getLocale();
+		}
+		return locale;
 	}
 
 	/* (non-Javadoc)
@@ -121,7 +136,7 @@ public abstract class MockMimeResponse extends MockPortletResponse implements
 	 */
 	
 	public void setBufferSize(int size) {
-		response.setBufferSize(size);
+		bufferSize = size;
 	}
 
 	/* (non-Javadoc)
@@ -129,7 +144,7 @@ public abstract class MockMimeResponse extends MockPortletResponse implements
 	 */
 	
 	public int getBufferSize() {
-		return response.getBufferSize();
+		return bufferSize;
 	}
 
 	/* (non-Javadoc)
@@ -137,7 +152,8 @@ public abstract class MockMimeResponse extends MockPortletResponse implements
 	 */
 	
 	public void flushBuffer() throws IOException {
-		response.flushBuffer();
+		//TODO - Find a better way to inform the invoker
+		System.out.println("buffer has been flushed successfully.");
 	}
 
 	/* (non-Javadoc)
@@ -145,10 +161,11 @@ public abstract class MockMimeResponse extends MockPortletResponse implements
 	 */
 	
 	public void resetBuffer() {
-		if(response.isCommitted()){
+		if(isCommitted()){
 			throw new IllegalStateException("response has been committed");
 		}
-		response.resetBuffer();
+		//TODO - Find a better way to inform the invoker
+		System.out.println("buffer has been reset successfully.");
 	}
 
 	/* (non-Javadoc)
@@ -156,7 +173,7 @@ public abstract class MockMimeResponse extends MockPortletResponse implements
 	 */
 	
 	public boolean isCommitted() {
-		return response.isCommitted();
+		return committed;
 	}
 
 	/* (non-Javadoc)
@@ -170,7 +187,7 @@ public abstract class MockMimeResponse extends MockPortletResponse implements
 		/* reset properties and buffer */
 		/* According to JSR286, reset method must reset both the buffer 
 		 * and the properties set prior to it is called */
-		response.resetBuffer();
+		resetBuffer();
 		super._headers = existingHeaders;
 	}
 
@@ -182,11 +199,11 @@ public abstract class MockMimeResponse extends MockPortletResponse implements
 		if (isCalledGetWriter) {
 			throw new IllegalStateException();
 		}
-		if (contentType == null) {
-			setContentType(request.getResponseContentType());
-		}
+		
+		getContentType();
+		
 		isCalledGetPortletOutputStream = true;
-		return response.getOutputStream();
+		return outputStream;
 	}	
 
 	/* (non-Javadoc)
@@ -194,7 +211,7 @@ public abstract class MockMimeResponse extends MockPortletResponse implements
 	 */
 	
 	public CacheControl getCacheControl() {
-		return new MockCacheControl();
+		return cacheControl;
 	}
 	
 	
@@ -203,8 +220,7 @@ public abstract class MockMimeResponse extends MockPortletResponse implements
 	 */
 	
 	public PortletURL createRenderURL() {
-		// TODO Auto-generated method stub
-		return null;
+		return super.createRenderURL();
 	}
 
 	/* (non-Javadoc)
@@ -212,8 +228,7 @@ public abstract class MockMimeResponse extends MockPortletResponse implements
 	 */
 	
 	public PortletURL createActionURL() {
-		// TODO Auto-generated method stub
-		return null;
+		return super.createActionURL();
 	}
 
 	/* (non-Javadoc)
@@ -221,8 +236,7 @@ public abstract class MockMimeResponse extends MockPortletResponse implements
 	 */
 	
 	public ResourceURL createResourceURL() {
-		// TODO Auto-generated method stub
-		return null;
+		return super.createResourceURL();
 	}
 
 }

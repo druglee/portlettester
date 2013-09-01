@@ -18,6 +18,8 @@ import javax.portlet.PortletContext;
 import javax.xml.XMLConstants;
 import javax.xml.namespace.QName;
 
+import com.portletguru.portlettester.PortletStatus;
+
 
 /**
  * @author Derek Linde Li
@@ -28,6 +30,7 @@ public class MockPortletConfig implements PortletConfig {
 	private static String DEFAULT_BUNDLE_BASE_NAME = "com.portletguru.portlettester.resource";
 	
 	private PortletContext portletContext;
+	
 	private String portletName;
 	private String bundleBaseName;
 	private String defaultNamespace;

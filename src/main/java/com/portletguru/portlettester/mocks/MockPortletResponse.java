@@ -8,7 +8,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.portlet.PortletRequest;
 import javax.portlet.PortletResponse;
+import javax.portlet.PortletURL;
+import javax.portlet.ResourceURL;
 import javax.servlet.http.Cookie;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -24,6 +27,8 @@ import org.w3c.dom.Element;
 public abstract class MockPortletResponse implements PortletResponse {
 	
 	protected Map<String, Object> _headers = new LinkedHashMap<String, Object>();
+	protected String namespace;
+	protected PortletRequest request;
 
 	/* (non-Javadoc)
 	 * @see javax.portlet.PortletResponse#addProperty(java.lang.String, java.lang.String)
@@ -68,8 +73,11 @@ public abstract class MockPortletResponse implements PortletResponse {
 	 * @see javax.portlet.PortletResponse#getNamespace()
 	 */
 	
-	public String getNamespace() {		
-		return "mockNamespace";
+	public String getNamespace() {
+		if(namespace == null) {
+			namespace = "portlettester";
+		}
+		return namespace;
 	}
 
 	/* (non-Javadoc)
@@ -161,6 +169,18 @@ public abstract class MockPortletResponse implements PortletResponse {
 		else {
 			_headers.put(name, new String[] {value});
 		}
+	}
+	
+	protected PortletURL createRenderURL() {
+		return new MockPortletURL(request.getPublicParameterMap());
+	}
+
+	protected PortletURL createActionURL() {
+		return new MockActionURL(request.getPublicParameterMap());
+	}
+
+	protected ResourceURL createResourceURL() {
+		return new MockResourceURL();
 	}
 	
 	protected abstract String getLifeCycle();

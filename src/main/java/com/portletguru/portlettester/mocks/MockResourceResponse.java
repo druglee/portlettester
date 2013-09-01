@@ -16,6 +16,8 @@ import com.portletguru.portlettester.TestResultHolder;
  */
 public class MockResourceResponse extends MockMimeResponse implements
 		ResourceResponse {
+	
+	private int contentLength;
 
 	public MockResourceResponse(PortletRequest request, TestResultHolder resultHolder) {
 		super(request, resultHolder);
@@ -26,7 +28,7 @@ public class MockResourceResponse extends MockMimeResponse implements
 	 */
 	
 	public void setLocale(Locale loc) {
-		response.setLocale(loc);
+		locale = loc;
 	}
 
 	/* (non-Javadoc)
@@ -34,7 +36,7 @@ public class MockResourceResponse extends MockMimeResponse implements
 	 */
 	
 	public void setCharacterEncoding(String charset) {
-		response.setCharacterEncoding(charset);
+		characterEncoding = charset;
 	}
 
 	/* (non-Javadoc)
@@ -42,7 +44,7 @@ public class MockResourceResponse extends MockMimeResponse implements
 	 */
 	
 	public void setContentLength(int len) {
-		response.setContentLength(len);
+		contentLength = len;
 	}
 
 	/* (non-Javadoc)

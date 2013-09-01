@@ -22,7 +22,7 @@ public class MockRenderResponse extends MockMimeResponse implements
 	}
 
 	private String title;
- 	private Collection<PortletMode> nextPossiblePortletModes;
+	private Collection<PortletMode> nextPossiblePortletModes;
 
 	
 	public void setTitle(String title) {

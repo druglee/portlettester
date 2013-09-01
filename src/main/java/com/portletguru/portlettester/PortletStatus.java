@@ -3,6 +3,7 @@
  */
 package com.portletguru.portlettester;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.portlet.PortletMode;
@@ -21,15 +22,17 @@ public class PortletStatus {
 	private WindowState windowState;
 	private PortletPreferences preferences;
 	private String windowID;
-	//TODO - Find out what private/public parameter map is for
+	//TODO - Find out what private parameter map is for
 	//just put it here temporarily
 	private Map<String,String[]> privateParameterMap;
-	private Map<String,String[]> publicParameterMap;
+	private Map<String,String> publicParameterMap;
 	
 	public PortletStatus(){
 		portletMode = PortletMode.VIEW;
 		windowState = WindowState.NORMAL;
 		windowID = "MockWindow";
+		publicParameterMap = new HashMap<String, String>();
+		privateParameterMap = new HashMap<String, String[]>();
 	}
 	/**
 	 * @return the portletMode
@@ -98,13 +101,13 @@ public class PortletStatus {
 	/**
 	 * @return the publicParameterMap
 	 */
-	public Map<String, String[]> getPublicParameterMap() {
+	public Map<String, String> getPublicParameterMap() {
 		return publicParameterMap;
 	}
 	/**
 	 * @param publicParameterMap the publicParameterMap to set
 	 */
-	public void setPublicParameterMap(Map<String, String[]> publicParameterMap) {
+	public void setPublicParameterMap(Map<String, String> publicParameterMap) {
 		this.publicParameterMap = publicParameterMap;
 	}
 	

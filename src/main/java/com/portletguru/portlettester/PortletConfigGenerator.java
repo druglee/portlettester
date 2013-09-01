@@ -31,7 +31,9 @@ public class PortletConfigGenerator {
 	private List<QName> processingEvents;
 	private List<Locale> supportedLocales;
 	
-	public PortletConfigGenerator(PortletContext portletContext) {
+	private PortletStatus portletStatus;
+	
+	public PortletConfigGenerator(PortletContext portletContext, PortletStatus portletStatus) {
 		this.portletConfig = new MockPortletConfig(portletContext);
 		containerRuntimeOptions = new HashMap<String, String[]>();
 		initParameters = new HashMap<String, String>();
@@ -39,6 +41,7 @@ public class PortletConfigGenerator {
 		publishingEvents = new LinkedList<QName>();
 		processingEvents = new LinkedList<QName>();
 		supportedLocales = new LinkedList<Locale>();
+		this.portletStatus = portletStatus;
 	}
 	
 	public void setBundleBaseName(String baseName) {
@@ -65,10 +68,12 @@ public class PortletConfigGenerator {
 
 	public void setPublicRenderParameters(Map<String, String> publicRenderParameters) {
 		this.publicRenderParameters = publicRenderParameters;
+		portletStatus.setPublicParameterMap(publicRenderParameters);
 	}
 	
 	public void addPublicRenderParameter(String key, String value) {
 		this.publicRenderParameters.put(key, value);
+		portletStatus.setPublicParameterMap(publicRenderParameters);
 	}
 
 	/* publishing events  */

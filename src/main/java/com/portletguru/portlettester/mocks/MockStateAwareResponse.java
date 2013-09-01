@@ -74,7 +74,8 @@ public abstract class MockStateAwareResponse extends MockPortletResponse impleme
 		if(name == null) {
 			throw new IllegalArgumentException("name cannot be null");
 		}
-		renderParamenterMap.remove(name);
+		//Defined in public-render-parameter
+		//TODO : Create a PortletApp class to store this info
 		isRenderParematerCalled = true;
 	}
 

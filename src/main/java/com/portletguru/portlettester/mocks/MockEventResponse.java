@@ -27,8 +27,7 @@ public class MockEventResponse extends MockStateAwareResponse implements
 	 */
 	
 	public void setRenderParameters(EventRequest request) {
-		// TODO - To be researched, I don't understand the comment in the Java Doc
-		throw new UnsupportedOperationException("Unsupported yet");
+		//TODO: To be research, not really understand what is used for
 	}
 
 	

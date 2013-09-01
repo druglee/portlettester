@@ -9,6 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.portlet.PortalContext;
 import javax.portlet.PortletContext;
@@ -50,6 +51,8 @@ public abstract class MockPortletRequest implements PortletRequest {
 	protected String responseContentType;
 	protected List<String> responseContentTypes;
 	
+	private Map<String, String[]> publicRenderParameters;
+	
 	public MockPortletRequest(PortalContext portalContext, PortletContext portletContext,
 		PortletStatus portletStatus	) {
 		this.portalContext = portalContext;
@@ -73,6 +76,12 @@ public abstract class MockPortletRequest implements PortletRequest {
 		
 		this.responseContentType = Constants.TEXT_HTML;
 		this.responseContentTypes = new LinkedList<String>();
+		
+		Map<String, String[]> map = new HashMap<String, String[]>();
+		for(Entry<String, String> entry : portletStatus.getPublicParameterMap().entrySet()) {
+			map.put(entry.getKey(), new String[]{entry.getValue()});
+		}
+		publicRenderParameters = Collections.unmodifiableMap(map);
 	}
 
 	
@@ -340,8 +349,8 @@ public abstract class MockPortletRequest implements PortletRequest {
 
 	
 	public Map<String, String[]> getPublicParameterMap() {
-		//TODO - To be researched
-		return this.portletStatus.getPublicParameterMap();
+		// Defined in supported-public-render-parameter of the portlet.xml
+		return publicRenderParameters;
 	}
 	
 	/**
