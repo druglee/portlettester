@@ -10,30 +10,30 @@ import com.portletguru.portlettester.TestResultHolder;
 
 /**
  * @author Derek Linde Li
- *
+ * 
  */
 public class MockPrintWriter extends Writer {
-	
+
 	private TestResultHolder resultHolder;
-	
+
 	public MockPrintWriter(TestResultHolder resultHolder) {
-		resultHolder = resultHolder;
+		this.resultHolder = resultHolder;
 	}
-	
+
 	@Override
 	public void write(int c) throws IOException {
 		char[] content2Add = new char[1];
-		content2Add[0] = (char)c;
+		content2Add[0] = (char) c;
 		resultHolder.appendOutputContent(new String(content2Add));
 	}
 
 	@Override
 	public void write(char[] cbuf, int off, int len) throws IOException {
 		int length = len;
-		if( off > cbuf.length ) {
+		if (off > cbuf.length) {
 			return;
 		}
-		if( len > cbuf.length ) {
+		if (len > cbuf.length) {
 			length = cbuf.length - off;
 		}
 		char[] content2Add = new char[length];
@@ -42,13 +42,13 @@ public class MockPrintWriter extends Writer {
 	}
 
 	@Override
-	public void flush() throws IOException {		
-		//DO NOTHING
+	public void flush() throws IOException {
+		// DO NOTHING
 	}
 
 	@Override
 	public void close() throws IOException {
-		//DO NOTHING		
-	}	
-	
+		// DO NOTHING
+	}
+
 }
