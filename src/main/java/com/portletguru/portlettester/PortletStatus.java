@@ -21,18 +21,20 @@ public class PortletStatus {
 	private PortletMode portletMode;
 	private WindowState windowState;
 	private PortletPreferences preferences;
+	private DefaultPreferencesConfig defaultPreferencesConfig;
 	private String windowID;
 	//TODO - Find out what private parameter map is for
 	//just put it here temporarily
 	private Map<String,String[]> privateParameterMap;
 	private Map<String,String> publicParameterMap;
 	
-	public PortletStatus(){
+	public PortletStatus(DefaultPreferencesConfig defaultPreferencesConfig){
 		portletMode = PortletMode.VIEW;
 		windowState = WindowState.NORMAL;
 		windowID = "MockWindow";
 		publicParameterMap = new HashMap<String, String>();
 		privateParameterMap = new HashMap<String, String[]>();
+		this.defaultPreferencesConfig = defaultPreferencesConfig; 
 	}
 	/**
 	 * @return the portletMode
@@ -64,7 +66,7 @@ public class PortletStatus {
 	 */
 	public PortletPreferences getPreferences(PortletRequest request) {
 		if(preferences == null) {
-			preferences = new MockPortletPreferences(request);
+			preferences = new MockPortletPreferences(request, defaultPreferencesConfig.getDefaultPreferences(), defaultPreferencesConfig.getValidator() );
 		}
 		return preferences;
 	}

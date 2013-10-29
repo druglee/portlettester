@@ -10,6 +10,7 @@ import javax.portlet.PortletRequest;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.portletguru.portlettester.DefaultPreferencesConfig;
 import com.portletguru.portlettester.PortletStatus;
 import com.portletguru.portlettester.TestResultHolder;
 
@@ -22,7 +23,7 @@ public class MockRenderRequestTest {
 	
 	@Before
 	public void setup(){
-		request = new MockRenderRequest(new MockPortalContext(), new MockPortletContext(new TestResultHolder()), new PortletStatus());
+		request = new MockRenderRequest(new MockPortalContext(), new MockPortletContext(new TestResultHolder()), new PortletStatus(new DefaultPreferencesConfig()));
 	}
 	
 	@Test

@@ -15,11 +15,13 @@ import javax.portlet.Portlet;
 import javax.portlet.PortletConfig;
 import javax.portlet.PortletContext;
 import javax.portlet.PortletException;
+import javax.portlet.PreferencesValidator;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
+import com.portletguru.portlettester.DefaultPreferencesConfig;
 import com.portletguru.portlettester.PortletConfigGenerator;
 import com.portletguru.portlettester.PortletStatus;
 import com.portletguru.portlettester.TestContext;
@@ -54,6 +56,8 @@ public class DefaultTestContext implements TestContext {
 	private PortletContext portletContext;
 	private PortletStatus portletStatus;
 	
+	private DefaultPreferencesConfig defaultPreferencesConfig;
+	
 	private TestResultHolder testResult;
 	
 	private PortletConfigGenerator portletConfigGenerator;
@@ -76,9 +80,10 @@ public class DefaultTestContext implements TestContext {
 	
 	public DefaultTestContext(Map<String,String> contextInitParameters){
 		testResult = new TestResultHolder();
+		defaultPreferencesConfig = new DefaultPreferencesConfig();
 		portalContext = new MockPortalContext();
-		portletStatus = new PortletStatus();
 		portletContext = new MockPortletContext(contextInitParameters, testResult);
+		portletStatus = new PortletStatus(defaultPreferencesConfig);
 	}
 	
 	
@@ -155,6 +160,14 @@ public class DefaultTestContext implements TestContext {
 		return eventResponseGenerator;
 	}
 	
+	public void addDefaultPreferences(String name, String[] values, boolean isReadOnly) {
+		defaultPreferencesConfig.addPreference(name, values, isReadOnly);
+	}
+	
+	public void setPreferencesValidator(PreferencesValidator validator) {
+		defaultPreferencesConfig.setValidator(validator);
+	}
+	
 	/* (non-Javadoc)
 	 * @see com.portletmaniac.portlettester.TestContext#getTestResult()
 	 */
@@ -185,6 +198,15 @@ public class DefaultTestContext implements TestContext {
 		
 		this.portletConfigGenerator = null;
 		this.actionRequestGenerator = null;
+		this.actionResponseGenerator = null;
+		this.eventRequestGenerator = null;
+		this.eventResponseGenerator = null;
+		this.renderRequestGenerator = null;
+		this.renderResponseGenerator = null;
+		this.resourceRequestGenerator = null;
+		this.resourceResponseGenerator = null;
+		
+		this.defaultPreferencesConfig = new DefaultPreferencesConfig();
 		
 		this.testResult.reset();
 	}

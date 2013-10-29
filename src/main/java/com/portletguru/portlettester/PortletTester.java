@@ -6,6 +6,7 @@ package com.portletguru.portlettester;
 import javax.portlet.Portlet;
 import javax.portlet.PortletConfig;
 import javax.portlet.PortletException;
+import javax.portlet.PreferencesValidator;
 
 import com.portletguru.portlettester.impl.DefaultTestContext;
 import com.portletguru.portlettester.mocks.ActionRequestGenerator;
@@ -43,6 +44,14 @@ public class PortletTester {
 	
 	public TestResultHolder getTestResults() {
 		return testContext.getTestResult();
+	}
+	
+	public void addDefaultPreferences(String name, String[] values, boolean isReadOnly) {
+		testContext.addDefaultPreferences(name, values, isReadOnly);
+	}
+	
+	public void setPreferencesValidator(PreferencesValidator validator) {
+		testContext.setPreferencesValidator(validator);
 	}
 	
 	/* generator getters */

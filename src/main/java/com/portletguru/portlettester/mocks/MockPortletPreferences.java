@@ -25,12 +25,13 @@ public class MockPortletPreferences implements PortletPreferences {
 	
 	private Map<String,Preference> preferences;
 	private PortletRequest request;
+	private PreferencesValidator validator;
 	
-	public MockPortletPreferences(PortletRequest request) {
+	public MockPortletPreferences(PortletRequest request, Map<String, Preference> defaultPreferences, PreferencesValidator validator) {
 		this.request = request;
+		this.validator = validator;
+		this.defaultPreferences = defaultPreferences;
 		this.preferences = new HashMap<String, Preference>();
-		//TODO - Read the default preferences from the portlet.xml file
-		this.defaultPreferences = new HashMap<String, Preference>(); 
 	}
 
 	/* (non-Javadoc)
@@ -183,8 +184,7 @@ public class MockPortletPreferences implements PortletPreferences {
 	}
 	
 	private PreferencesValidator getValidator(){
-		//TODO - implement this
-		return null;
+		return validator;
 	}
 
 }

@@ -18,6 +18,7 @@ import javax.portlet.WindowState;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.portletguru.portlettester.DefaultPreferencesConfig;
 import com.portletguru.portlettester.PortletStatus;
 import com.portletguru.portlettester.TestResultHolder;
 
@@ -45,7 +46,7 @@ public class MockPortletRequestTest {
 	
 	@Before
 	public void setup(){
-		request = new TestingPurposePortletRequest(new MockPortalContext(), new MockPortletContext(new TestResultHolder()), new PortletStatus());
+		request = new TestingPurposePortletRequest(new MockPortalContext(), new MockPortletContext(new TestResultHolder()), new PortletStatus(new DefaultPreferencesConfig()));
 	}
 	
 	@Test
