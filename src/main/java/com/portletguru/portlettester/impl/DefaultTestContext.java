@@ -20,6 +20,9 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
+import javax.portlet.filter.FilterChain;
+import javax.portlet.filter.FilterConfig;
+import javax.portlet.filter.PortletFilter;
 
 import com.portletguru.portlettester.DefaultPreferencesConfig;
 import com.portletguru.portlettester.PortletConfigGenerator;
@@ -30,10 +33,12 @@ import com.portletguru.portlettester.mocks.ActionRequestGenerator;
 import com.portletguru.portlettester.mocks.ActionResponseGenerator;
 import com.portletguru.portlettester.mocks.EventRequestGenerator;
 import com.portletguru.portlettester.mocks.EventResponseGenerator;
+import com.portletguru.portlettester.mocks.FilterConfigGenerator;
 import com.portletguru.portlettester.mocks.MockActionRequest;
 import com.portletguru.portlettester.mocks.MockActionResponse;
 import com.portletguru.portlettester.mocks.MockEventRequest;
 import com.portletguru.portlettester.mocks.MockEventResponse;
+import com.portletguru.portlettester.mocks.MockFilterChain;
 import com.portletguru.portlettester.mocks.MockPortalContext;
 import com.portletguru.portlettester.mocks.MockPortletConfig;
 import com.portletguru.portlettester.mocks.MockPortletContext;
@@ -56,11 +61,14 @@ public class DefaultTestContext implements TestContext {
 	private PortletContext portletContext;
 	private PortletStatus portletStatus;
 	
+	private FilterChain filterChain;
+	
 	private DefaultPreferencesConfig defaultPreferencesConfig;
 	
 	private TestResultHolder testResult;
 	
 	private PortletConfigGenerator portletConfigGenerator;
+	private FilterConfigGenerator filterConfigGenerator;
 	
 	private ActionRequestGenerator actionRequestGenerator;
 	private ActionResponseGenerator actionResponseGenerator;
@@ -97,6 +105,13 @@ public class DefaultTestContext implements TestContext {
 			portletConfigGenerator = new PortletConfigGenerator(portletContext, portletStatus);
 		}
 		return portletConfigGenerator;
+	}
+	
+	public FilterConfigGenerator getFilterConfigGenerator() {
+		if(filterConfigGenerator == null) {
+			filterConfigGenerator = new FilterConfigGenerator(portletContext);
+		}
+		return filterConfigGenerator;
 	}
 	
 	public ActionRequestGenerator getActionRequestGenerator() {
@@ -168,6 +183,15 @@ public class DefaultTestContext implements TestContext {
 		defaultPreferencesConfig.setValidator(validator);
 	}
 	
+	
+	public FilterChain getFilterChain() {
+		if(filterChain == null) {
+			filterChain = new MockFilterChain(testResult);
+		}
+		return filterChain;
+	}
+	
+	
 	/* (non-Javadoc)
 	 * @see com.portletmaniac.portlettester.TestContext#getTestResult()
 	 */
@@ -189,6 +213,13 @@ public class DefaultTestContext implements TestContext {
 			throws PortletException {
 		portlet.init(portletConfig);		
 	}
+	
+	/* (non-Javadoc)
+	 * @see com.portletmaniac.portlettester.TestContext#initPortlet(javax.portlet.Portlet, javax.portlet.PortletConfig)
+	 */
+	public void initFilter(PortletFilter filter, FilterConfig filterConfig) throws PortletException {
+		filter.init(filterConfig);
+	}
 
 	/* (non-Javadoc)
 	 * @see com.portletmanic.portlettester.TestContext#reset()
@@ -197,6 +228,7 @@ public class DefaultTestContext implements TestContext {
 	public void reset() {
 		
 		this.portletConfigGenerator = null;
+		this.filterConfigGenerator = null;
 		this.actionRequestGenerator = null;
 		this.actionResponseGenerator = null;
 		this.eventRequestGenerator = null;

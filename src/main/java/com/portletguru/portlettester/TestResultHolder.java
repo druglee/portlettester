@@ -20,6 +20,8 @@ public class TestResultHolder {
 	private String requestDispatcherName;
 	private String redirectLocation;
 	
+	private boolean isFilterPassed;
+	
 	private StringBuilder outputContent;
 	private List<Byte> outputBytes;
 	
@@ -93,6 +95,22 @@ public class TestResultHolder {
 	public void appendOutputContent(byte b) {
 		outputBytes.add(b);
 	}
+	
+	/**
+	 * Mark the filter as passed
+	 */
+	public void setFilterPassed() {
+		isFilterPassed = true;
+	}
+	
+	/**
+	 * Indicates the result of a FilterChain object
+	 * 
+	 * @return true if FilterChain#doFilter() is invoked
+	 */
+	public boolean isFilterPassed() {
+		return isFilterPassed;
+	}
 
 	public void reset() {
 		requestDispatcherPath = null;
@@ -100,6 +118,7 @@ public class TestResultHolder {
 		redirectLocation = null;
 		outputContent = new StringBuilder();
 		outputBytes = getOutputBytesList();
+		isFilterPassed = false;
 	}
 	
 	private List<Byte> getOutputBytesList(){
