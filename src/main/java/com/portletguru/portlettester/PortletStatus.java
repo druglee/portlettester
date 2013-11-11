@@ -14,6 +14,9 @@ import javax.portlet.WindowState;
 import com.portletguru.portlettester.mocks.MockPortletPreferences;
 
 /**
+ * Represents the current status of the portlet being tested. Basically 
+ * you should not use this class directly.
+ * 
  * @author Derek Linde Li
  *
  */

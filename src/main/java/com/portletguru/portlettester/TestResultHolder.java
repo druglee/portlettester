@@ -30,10 +30,22 @@ public class TestResultHolder {
 		outputBytes = getOutputBytesList();
 	}
 	
+	/**
+	 * Returns the path specified when invoking 
+	 * javax.portlet.PortletContext#getRequestDispatcher(java.lang.String)
+	 * 
+	 * @return the path passed to the method
+	 */
 	public String getRequestDispatcherPath(){
 		return requestDispatcherPath;
 	}
 	
+	/**
+	 * Returns the name of the request dispatcher passed in to the 
+	 * javax.portlet.PortletContext#getNamedDispatcher(java.lang.String)
+	 * 
+	 * @return the name of the dispatcher
+	 */
 	public String getRequestDispatcherName(){
 		return requestDispatcherName;
 	}
@@ -53,6 +65,9 @@ public class TestResultHolder {
 	}	
 	
 	/**
+	 * Returns the URL string specified when invoking the 
+	 * javax.portlet.ActionResponse#sendRedirect method.
+	 * 
 	 * @return the redirectLocation
 	 */
 	public String getRedirectLocation() {
@@ -67,8 +82,9 @@ public class TestResultHolder {
 	}
 	
 	/**
-	 * The content passed into write/print/println methods
-	 * @return a String that contains the content the user has written
+	 * Returns the content written by write/print/println methods
+	 * 
+	 * @return a String that contains the content has been written
 	 */
 	public String getOutputContent(){
 		return outputContent.toString();
@@ -83,6 +99,7 @@ public class TestResultHolder {
 	
 	/**
 	 * The content passed into write/print/println methods
+	 * 
 	 * @return a byte array that contains the content the user has written in OutputStream
 	 */
 	public Byte[] getOutputBytes(){
