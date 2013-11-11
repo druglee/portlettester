@@ -16,6 +16,7 @@ import com.portletguru.portlettester.mocks.ActionResponseGenerator;
 import com.portletguru.portlettester.mocks.EventRequestGenerator;
 import com.portletguru.portlettester.mocks.EventResponseGenerator;
 import com.portletguru.portlettester.mocks.FilterConfigGenerator;
+import com.portletguru.portlettester.mocks.PortletConfigGenerator;
 import com.portletguru.portlettester.mocks.RenderRequestGenerator;
 import com.portletguru.portlettester.mocks.RenderResponseGenerator;
 import com.portletguru.portlettester.mocks.ResourceRequestGenerator;

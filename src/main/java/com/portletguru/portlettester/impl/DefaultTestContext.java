@@ -25,7 +25,6 @@ import javax.portlet.filter.FilterConfig;
 import javax.portlet.filter.PortletFilter;
 
 import com.portletguru.portlettester.DefaultPreferencesConfig;
-import com.portletguru.portlettester.PortletConfigGenerator;
 import com.portletguru.portlettester.PortletStatus;
 import com.portletguru.portlettester.TestContext;
 import com.portletguru.portlettester.TestResultHolder;
@@ -46,6 +45,7 @@ import com.portletguru.portlettester.mocks.MockRenderRequest;
 import com.portletguru.portlettester.mocks.MockRenderResponse;
 import com.portletguru.portlettester.mocks.MockResourceRequest;
 import com.portletguru.portlettester.mocks.MockResourceResponse;
+import com.portletguru.portlettester.mocks.PortletConfigGenerator;
 import com.portletguru.portlettester.mocks.RenderRequestGenerator;
 import com.portletguru.portlettester.mocks.RenderResponseGenerator;
 import com.portletguru.portlettester.mocks.ResourceRequestGenerator;

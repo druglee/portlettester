@@ -12,10 +12,10 @@ import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.portletguru.portlettester.PortletConfigGenerator;
 import com.portletguru.portlettester.PortletTester;
 import com.portletguru.portlettester.mocks.ActionRequestGenerator;
 import com.portletguru.portlettester.mocks.ActionResponseGenerator;
+import com.portletguru.portlettester.mocks.PortletConfigGenerator;
 
 /**
  * Testing different scenarios to use PortletTester

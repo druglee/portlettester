@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.portletguru.portlettester;
+package com.portletguru.portlettester.mocks;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -13,7 +13,7 @@ import javax.portlet.PortletConfig;
 import javax.portlet.PortletContext;
 import javax.xml.namespace.QName;
 
-import com.portletguru.portlettester.mocks.MockPortletConfig;
+import com.portletguru.portlettester.PortletStatus;
 
 /**
  * Helper class to create a PortletConfig instance
