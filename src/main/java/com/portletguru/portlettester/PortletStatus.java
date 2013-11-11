@@ -11,6 +11,7 @@ import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
 import javax.portlet.WindowState;
 
+import com.portletguru.portlettester.mocks.DefaultPreferencesConfig;
 import com.portletguru.portlettester.mocks.MockPortletPreferences;
 
 /**

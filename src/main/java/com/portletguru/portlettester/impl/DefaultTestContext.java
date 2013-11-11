@@ -24,12 +24,12 @@ import javax.portlet.filter.FilterChain;
 import javax.portlet.filter.FilterConfig;
 import javax.portlet.filter.PortletFilter;
 
-import com.portletguru.portlettester.DefaultPreferencesConfig;
 import com.portletguru.portlettester.PortletStatus;
 import com.portletguru.portlettester.TestContext;
 import com.portletguru.portlettester.TestResultHolder;
 import com.portletguru.portlettester.mocks.ActionRequestGenerator;
 import com.portletguru.portlettester.mocks.ActionResponseGenerator;
+import com.portletguru.portlettester.mocks.DefaultPreferencesConfig;
 import com.portletguru.portlettester.mocks.EventRequestGenerator;
 import com.portletguru.portlettester.mocks.EventResponseGenerator;
 import com.portletguru.portlettester.mocks.FilterConfigGenerator;

@@ -1,14 +1,13 @@
 /**
  * 
  */
-package com.portletguru.portlettester;
+package com.portletguru.portlettester.mocks;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.portlet.PreferencesValidator;
 
-import com.portletguru.portlettester.mocks.Preference;
 
 /**
  * This class stands for the default preferences settings defined 
