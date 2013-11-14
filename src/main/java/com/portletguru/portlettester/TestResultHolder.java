@@ -25,6 +25,10 @@ public class TestResultHolder {
 	private StringBuilder outputContent;
 	private List<Byte> outputBytes;
 	
+	/**
+	 * Constructor. Don't create this object yourself. Use 
+	 * {@link PortletTester#getTestResults()} instead.
+	 */
 	public TestResultHolder() {
 		outputContent = new StringBuilder();
 		outputBytes = getOutputBytesList();

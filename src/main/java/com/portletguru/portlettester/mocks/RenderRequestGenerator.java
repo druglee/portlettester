@@ -8,6 +8,7 @@ import javax.portlet.PortletContext;
 import javax.portlet.RenderRequest;
 
 import com.portletguru.portlettester.PortletStatus;
+import com.portletguru.portlettester.PortletTester;
 
 /**
  * @author Derek Linde Li
@@ -15,6 +16,14 @@ import com.portletguru.portlettester.PortletStatus;
  */
 public class RenderRequestGenerator extends PortletRequestGenerator<RenderRequest> {
 
+	/**
+	 * Constructor. Don't construct the generator yourself. Use 
+	 * {@link PortletTester#getRenderRequestGenerator()} instead.
+	 * 
+	 * @param portalContext
+	 * @param portletContext
+	 * @param portletStatus
+	 */
 	public RenderRequestGenerator(PortalContext portalContext,
 			PortletContext portletContext, PortletStatus portletStatus) {
 		super(portalContext, portletContext, portletStatus);
@@ -22,6 +31,7 @@ public class RenderRequestGenerator extends PortletRequestGenerator<RenderReques
 	}
 	
 	/**
+	 * Sets the ETag
 	 * 
 	 * @param etag
 	 */

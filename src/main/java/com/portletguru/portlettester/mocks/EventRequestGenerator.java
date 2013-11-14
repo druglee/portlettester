@@ -11,11 +11,21 @@ import javax.portlet.PortletContext;
 import com.portletguru.portlettester.PortletStatus;
 
 /**
+ * This class helps to create an EventRequest object
+ * 
  * @author Derek Linde Li
  *
  */
 public class EventRequestGenerator extends PortletRequestGenerator<EventRequest> {
 
+	/**
+	 * Constructor. Don't construct the generator yourself. Use 
+	 * {@link PortletTester#getEventRequestGenerator()} instead.
+	 * 
+	 * @param portalContext
+	 * @param portletContext
+	 * @param portletStatus
+	 */
 	public EventRequestGenerator(PortalContext portalContext,
 			PortletContext portletContext, PortletStatus portletStatus) {
 		super(portalContext, portletContext, portletStatus);
@@ -23,16 +33,18 @@ public class EventRequestGenerator extends PortletRequestGenerator<EventRequest>
 	}
 	
 	/**
+	 * Specifies the method
 	 * 
-	 * @param method
+	 * @param method the method to specify
 	 */
 	public void setMethod(String method) {
 		getEventRequest().method = method;
 	}
 	
 	/**
+	 * Specifies the Event object in this request
 	 * 
-	 * @param event
+	 * @param event the Event object to specify
 	 */
 	public void setEvent(Event event) {
 		getEventRequest().event = event;

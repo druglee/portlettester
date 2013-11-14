@@ -91,7 +91,7 @@ public class PortletTester {
 	}
 	
 	/**
-	 * Add a default preference item.
+	 * Adds a default preference item.
 	 * 
 	 * @param name the name of the preference item
 	 * @param values the values of the preference item

@@ -8,6 +8,7 @@ import java.util.Locale;
 import javax.portlet.PortletRequest;
 import javax.portlet.RenderResponse;
 
+import com.portletguru.portlettester.PortletTester;
 import com.portletguru.portlettester.TestResultHolder;
 
 /**
@@ -16,6 +17,13 @@ import com.portletguru.portlettester.TestResultHolder;
  */
 public class RenderResponseGenerator extends MimeResponseGenerator {
 
+	/**
+	 * Constructor. Don't construct the generator yourself. Use 
+	 * {@link PortletTester#getRenderResponseGenerator()} instead.
+	 * 
+	 * @param request
+	 * @param resultHolder
+	 */
 	public RenderResponseGenerator(PortletRequest request,
 			TestResultHolder resultHolder) {
 		super(request, resultHolder);
@@ -23,6 +31,7 @@ public class RenderResponseGenerator extends MimeResponseGenerator {
 	}
 	
 	/**
+	 * Sets the locale
 	 * 
 	 * @param locale
 	 */
