@@ -4,11 +4,18 @@
 
   <groupId>com.portletguru</groupId>
   <artifactId>portlettester</artifactId>
-  <version>0.1</version>
+  <version>0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>portlettester</name>
-  <url>http://maven.apache.org</url>
+  <url>https://github.com/druglee/portlettester</url>
+	
+  <licenses>
+  	<license>
+  		<name>Lesser General Public License</name>
+  		<url>http://www.gnu.org/licenses/lgpl.html</url>
+  	</license>
+  </licenses>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -42,4 +49,75 @@
     	<version>2.6</version>
     </dependency>
   </dependencies>
+  <description>PortletTester is unit testing framework for Portlet. It's created based on JSR168 and JSR286. </description>
+  <scm>
+  	<url>https://github.com/druglee/portlettester</url>
+	<connection>scm:git:git://github.com/druglee/portlettester.git</connection>
+	<developerConnection>scm:git:druglee@github.com/druglee/portlettester.git</developerConnection>
+  </scm>
+  <developers>
+    <developer>
+		<id>derek.li</id>
+		<name>Derek Li</name>
+		<email>derek.li0113@gmail.com</email>
+    </developer>
+  </developers>
+  <profiles>
+  	<profile>
+		<id>release-sign-artifacts</id>
+		<activation>
+		  <property>
+			<name>performRelease</name>
+			<value>true</value>
+		  </property>
+		</activation>
+		<build>
+		  <plugins>
+			<plugin>
+			  <groupId>org.apache.maven.plugins</groupId>
+			  <artifactId>maven-gpg-plugin</artifactId>
+			  <version>1.1</version>
+			  <executions>
+				<execution>
+				  <id>sign-artifacts</id>
+				  <phase>verify</phase>
+				  <goals>
+					<goal>sign</goal>
+				  </goals>
+				</execution>
+			  </executions>
+			</plugin>
+		  </plugins>
+		</build>
+	</profile>
+  </profiles>
+  
+  <build>
+  	<plugins>
+  		<plugin>
+		  <groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-source-plugin</artifactId>
+		  <executions>
+			<execution>
+				<id>attach-sources</id>
+				<goals>
+					<goal>jar</goal>
+				</goals>
+			</execution>
+		  </executions>
+		</plugin>
+		<plugin>
+		  <groupId>org.apache.maven.plugins</groupId>
+		  <artifactId>maven-javadoc-plugin</artifactId>
+		  <executions>
+			<execution>
+			  <id>attach-javadocs</id>
+			  <goals>
+				<goal>jar</goal>
+			  </goals>
+			</execution>
+		  </executions>
+		</plugin>
+  	</plugins>
+  </build>
 </project>
