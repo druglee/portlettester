@@ -52,7 +52,7 @@
   <scm>
   	<url>https://github.com/druglee/portlettester</url>
 	<connection>scm:git:git://github.com/druglee/portlettester.git</connection>
-	<developerConnection>scm:git://druglee@github.com/druglee/portlettester.git</developerConnection>
+	<developerConnection>scm:git:https://druglee@github.com/druglee/portlettester.git</developerConnection>
   </scm>
   <developers>
     <developer>
