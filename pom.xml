@@ -3,7 +3,7 @@
 
   <groupId>com.portletguru</groupId>
   <artifactId>portlettester</artifactId>
-  <version>0.2-SNAPSHOT</version>
+  <version>0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
 
   <name>portlettester</name>
@@ -119,4 +119,12 @@
 		</plugin>
   	</plugins>
   </build>
+  
+	<distributionManagement>
+        <repository>
+            <id>portlettester-releases</id>
+            <name>PortletTester Repository</name>
+            <url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+    </distributionManagement>
 </project>
